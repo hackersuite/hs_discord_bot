@@ -24,7 +24,8 @@
   "homepage": "https://github.com/amishshah/hackathon-bot#readme",
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-aqua": "^7.2.1"
+    "eslint-config-aqua": "^7.2.1",
+    "pino-pretty": "^3.6.1"
   },
   "eslintConfig": {
     "extends": "aqua/node"
@@ -32,6 +33,7 @@
   "dependencies": {
     "@unicsmcr/hs_auth_client": "^1.2.0",
     "discord-akairo": "^8.0.0",
-    "discord.js": "^12.0.2"
+    "discord.js": "^12.0.2",
+    "pino": "^5.17.0"
   }
 }
