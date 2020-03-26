@@ -4,7 +4,8 @@
   "description": "A Discord bot to assist with the online StudentHack 2020",
   "main": "src/index.js",
   "scripts": {
-    "test": "eslint src"
+    "test": "eslint src",
+    "start": "npm test && node ."
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,9 @@
   },
   "eslintConfig": {
     "extends": "aqua/node"
+  },
+  "dependencies": {
+    "discord-akairo": "^8.0.0",
+    "discord.js": "^12.0.2"
   }
 }
