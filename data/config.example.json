@@ -1,0 +1,8 @@
+{
+    "discord": {
+        "prefix": "!",
+        "bot_token": "bot token from discord developer site",
+        "owners": ["user ID(s) of owners of server (organisers of hack)"]
+    },
+    "twitter_api_token": ""
+}
