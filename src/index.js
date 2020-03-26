@@ -1,6 +1,9 @@
 const { AkairoClient, CommandHandler } = require('discord-akairo');
 const config = require('../data/config.json');
 
+// Load required environment variables
+require('./util/loadEnvironment')(config);
+
 class Client extends AkairoClient {
 	constructor() {
 		super({

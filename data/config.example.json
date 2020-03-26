@@ -4,5 +4,9 @@
         "bot_token": "bot token from discord developer site",
         "owners": ["user ID(s) of owners of server (organisers of hack)"]
     },
+    "hs_auth": {
+        "url": "http://localhost:8000",
+        "token": "Admin authorization token for HS services"
+    },
     "twitter_api_token": ""
 }
