@@ -1,8 +1,8 @@
 const { AkairoClient, CommandHandler } = require('discord-akairo');
 const config = require('../data/config.json');
-const logger = require('./util/logger');
+const { appLogger, botLogger } = require('./util/logger');
 
-logger.info('Starting...');
+appLogger.info('Starting...');
 
 // Load required environment variables
 require('./util/loadEnvironment')(config);
@@ -27,6 +27,6 @@ class Client extends AkairoClient {
 
 const client = new Client();
 
-client.on('debug', info => logger.info(info));
+client.on('debug', info => botLogger.info(info));
 
 client.login(config.discord.bot_token);

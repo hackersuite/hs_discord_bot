@@ -1,3 +1,4 @@
-const logger = require('pino')();
+const appLogger = require('pino')();
+const botLogger = appLogger.child({ name: 'bot' });
 
-module.exports = logger;
+module.exports = { appLogger, botLogger };
