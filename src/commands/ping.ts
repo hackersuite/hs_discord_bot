@@ -1,13 +1,14 @@
-const { Command } = require('discord-akairo');
+import { Message } from 'discord.js';
+import { Command } from 'discord-akairo';
 
 class PingCommand extends Command {
-	constructor() {
+	public constructor() {
 		super('ping', {
 			aliases: ['ping']
 		});
 	}
 
-	exec(message) {
+	public exec(message: Message) {
 		return message.reply('Pong!');
 	}
 }

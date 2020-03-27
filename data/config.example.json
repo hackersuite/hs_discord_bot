@@ -1,14 +1,13 @@
 {
     "discord": {
         "prefix": "!",
-        "bot_token": "bot token from discord developer site",
+        "botToken": "bot token from discord developer site",
         "owners": ["user ID(s) of owners of server (organisers of hack)"],
-        "guild_id": "ID of Guild",
-        "teams_category_id": "ID of Teams Channels Category"
+        "guildID": "ID of Guild",
+        "teamsCategoryID": "ID of Teams Channels Category"
     },
-    "hs_auth": {
+    "hsAuth": {
         "url": "http://localhost:8000",
         "token": "Admin authorization token for HS services"
-    },
-    "twitter_api_token": ""
+    }
 }

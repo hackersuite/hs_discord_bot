@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"moduleResolution": "node",
+		"module": "commonjs",
+		"target": "es2019",
+		"lib": [
+			"esnext",
+			"esnext.array",
+			"esnext.asynciterable",
+			"esnext.bigint",
+			"esnext.intl",
+			"esnext.symbol"
+		],
+		"sourceMap": false,
+		"inlineSourceMap": true,
+		"inlineSources": true,
+		"sourceRoot": "src",
+		"outDir": "dist",
+		"declaration": false,
+		"removeComments": false,
+		"alwaysStrict": true,
+		"allowSyntheticDefaultImports": true,
+		"pretty": true
+	},
+	"exclude": [
+		"src/**/*.test.ts",
+		"src/**/*.spec.ts",
+		"src/**/*.test.js",
+		"src/**/*.spec.js"
+	]
+}
