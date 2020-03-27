@@ -9,10 +9,12 @@ appLogger.info('Starting...');
 require('./util/loadEnvironment')(config);
 
 class Client extends AkairoClient {
-	constructor() {
+	constructor(config) {
 		super({
 			ownerID: config.discord.owners
 		});
+
+		this.config = config;
 
 		this.commandHandler = new CommandHandler(this, {
 			blockBots: true,
@@ -38,6 +40,6 @@ class Client extends AkairoClient {
 	}
 }
 
-const client = new Client();
+const client = new Client(config);
 
 client.on('debug', info => botLogger.info(info));

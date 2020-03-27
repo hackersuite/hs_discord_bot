@@ -2,7 +2,9 @@
     "discord": {
         "prefix": "!",
         "bot_token": "bot token from discord developer site",
-        "owners": ["user ID(s) of owners of server (organisers of hack)"]
+        "owners": ["user ID(s) of owners of server (organisers of hack)"],
+        "guild_id": "ID of Guild",
+        "teams_category_id": "ID of Teams Channels Category"
     },
     "hs_auth": {
         "url": "http://localhost:8000",

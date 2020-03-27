@@ -35,12 +35,10 @@ exports.TeamAttributes = {
 	},
 	channelID: {
 		type: DataTypes.STRING,
-		allowNull: false,
 		unique: true
 	},
 	roleID: {
 		type: DataTypes.STRING,
-		allowNull: false,
 		unique: true
 	},
 	name: {
