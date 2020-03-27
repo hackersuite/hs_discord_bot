@@ -1,6 +1,7 @@
 const { AkairoClient, CommandHandler } = require('discord-akairo');
 const config = require('../data/config.json');
 const { appLogger, botLogger } = require('./util/logger');
+const Database = require('./db/Database');
 
 appLogger.info('Starting...');
 
@@ -22,11 +23,21 @@ class Client extends AkairoClient {
 		});
 
 		this.commandHandler.loadAll();
+
+		this.db = new Database();
+		this.db.init()
+			.then(() => this.login(config.discord.bot_token))
+			.catch(this.destroy);
+	}
+
+	destroy(error) {
+		appLogger.error(`Destroying application:`);
+		appLogger.error(error);
+		super.destroy();
+		this.db.close();
 	}
 }
 
 const client = new Client();
 
 client.on('debug', info => botLogger.info(info));
-
-client.login(config.discord.bot_token);
