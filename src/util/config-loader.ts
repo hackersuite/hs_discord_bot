@@ -1,3 +1,5 @@
+import { Logger } from 'pino';
+
 export interface HackathonConfig {
 	discord: {
 		prefix: string;
@@ -9,6 +11,14 @@ export interface HackathonConfig {
 	hsAuth: {
 		url: string;
 		token: string;
+	};
+}
+
+export interface ApplicationConfig extends HackathonConfig {
+	loggers: {
+		app: Logger;
+		bot: Logger;
+		db: Logger;
 	};
 }
 

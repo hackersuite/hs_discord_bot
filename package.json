@@ -26,6 +26,7 @@
   "homepage": "https://github.com/amishshah/hackathon-bot#readme",
   "devDependencies": {
     "@types/node": "^13.9.5",
+    "@types/pino": "^5.17.0",
     "@types/ws": "^7.2.3",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
