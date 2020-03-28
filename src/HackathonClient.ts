@@ -3,7 +3,7 @@ import { ApplicationConfig } from './util/config-loader';
 import { join } from 'path';
 
 export class HackathonClient extends AkairoClient {
-	private readonly config: ApplicationConfig;
+	public readonly config: ApplicationConfig;
 	private readonly commandHandler: CommandHandler;
 	public constructor(config: ApplicationConfig) {
 		super({

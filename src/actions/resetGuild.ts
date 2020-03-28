@@ -1,0 +1,44 @@
+import { Guild, CategoryChannel } from 'discord.js';
+
+/*
+    Unverified = 0,
+    Applicant = 1,
+    Attendee = 2,
+    Volunteer = 3,
+	Organiser = 4
+*/
+
+interface GuildResetData {
+	guild: Guild;
+}
+
+
+/*
+	Removes Hackathon channels and roles from the server
+*/
+export async function resetGuild(data: GuildResetData) {
+	const { guild } = data;
+
+	const roleNames = ['Organiser', 'Volunteer', 'Attendee', 'Applicant', 'Unverified', 'Account Linked'];
+
+	for (const roleName of roleNames) {
+		const role = guild.roles.cache.find(role => role.name === roleName);
+		if (role) {
+			await role.delete();
+		}
+	}
+
+	const categoryNames = ['Staff', 'Teams'];
+	for (const categoryName of categoryNames) {
+		const category = guild.channels.cache
+			.find(c => c.type === 'category' && c.name === categoryName) as CategoryChannel | undefined;
+		if (category) {
+			for (const child of category.children.values()) {
+				await child.delete();
+			}
+			await category.delete();
+		}
+	}
+
+	return true;
+}
