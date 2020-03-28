@@ -6,7 +6,6 @@ export interface HackathonConfig {
 		botToken: string;
 		owners: string[];
 		guildID: string;
-		teamsCategoryID: string;
 	};
 	hsAuth: {
 		url: string;
