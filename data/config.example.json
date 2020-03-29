@@ -2,8 +2,8 @@
     "discord": {
         "prefix": "!",
         "botToken": "bot token from discord developer site",
-        "owners": ["user ID(s) of owners of server (organisers of hack)"],
-        "guildID": "ID of Guild",
+        "owners": ["Discord User ID(s) of organisers of the hack"],
+        "guildID": "ID of the Hackathon Guild/Server",
         "teamsCategoryID": "ID of Teams Channels Category"
     },
     "hsAuth": {

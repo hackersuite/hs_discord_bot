@@ -4,6 +4,19 @@
 
 A Discord bot to assist with the online StudentHack 2020.
 
+## Usage
+
+1. Create `data/config.json` (see `data/config.example.json` for the required settings)
+2. `npm install`
+3. `npm start`
+
+## Current Features
+
+- Can setup a Discord guild (create roles and channels) for Hackathon usage with `!setup`
+- Links Discord user accounts to HS accounts
+- Creates private text and voice channels for teams
+- Creates a private area for organisers and volunteers to communicate
+
 ## License
 
 > Copyright 2020 UniCS
