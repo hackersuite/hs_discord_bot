@@ -23,13 +23,15 @@ type TextBasedChannel = TextChannel | DMChannel;
 
 export class Task extends MessageEmbed {
 	public status: TaskStatus;
+	public readonly id: number;
 	private readonly issuer: User;
 	private message?: Message;
 	public constructor(data: TaskData) {
 		super();
 		this.status = TaskStatus.Active;
 		this.issuer = data.issuer;
-		this.setFooter(`Issued by ${this.issuer.tag}`);
+		this.id = Date.now();
+		this.setFooter(`Issued by ${this.issuer.tag} | Task ID ${this.id}`);
 		this.update(data);
 	}
 

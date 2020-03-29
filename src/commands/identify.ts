@@ -71,9 +71,12 @@ class IdentifyCommand extends Command {
 				});
 			}
 		} catch (error) {
-			client.loggers.bot.warn('Error occurred when trying to run reset');
+			client.loggers.bot.warn(`Error occurred for task ${task.id}`);
 			client.loggers.bot.warn(error);
-			await task.update({ description: 'Failed to complete, check logs for more information', status: TaskStatus.Failed });
+			await task.update({
+				description: `Failed to complete: ${(error as Error).message}`,
+				status: TaskStatus.Failed
+			});
 		}
 	}
 }

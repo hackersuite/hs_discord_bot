@@ -1,4 +1,4 @@
-import { Guild, RoleData } from 'discord.js';
+import { Guild, RoleData, MessageEmbed } from 'discord.js';
 import { ApplicationConfig } from '../util/config-loader';
 
 /*
@@ -39,7 +39,7 @@ export async function setupGuild(data: GuildSetupData) {
 	await makeRole(guild, { name: 'Attendee' });
 	await makeRole(guild, { name: 'Applicant' });
 	await makeRole(guild, { name: 'Unverified' });
-	await makeRole(guild, { name: 'Account Linked' });
+	const accountLinked = await makeRole(guild, { name: 'Account Linked' });
 
 	const staff = await guild.channels.create('Staff', {
 		type: 'category',
@@ -70,6 +70,103 @@ export async function setupGuild(data: GuildSetupData) {
 		parent: staff.id
 	});
 
+	//
+	// Hackathon
+	//
+	const hackathon = await guild.channels.create('Hackathon', {
+		type: 'category',
+		permissionOverwrites: [
+			{
+				id: guild.id,
+				deny: ['VIEW_CHANNEL']
+			},
+			{
+				id: accountLinked.id,
+				allow: ['VIEW_CHANNEL']
+			}
+		]
+	});
+
+	await guild.channels.create('announcements', {
+		type: 'text',
+		parent: hackathon.id,
+		topic: 'Important announcements from the organisers!',
+		permissionOverwrites: [
+			{
+				id: guild.id,
+				deny: ['SEND_MESSAGES']
+			},
+			{
+				id: organiser.id,
+				allow: ['SEND_MESSAGES', 'ATTACH_FILES']
+			}
+		]
+	});
+
+	await guild.channels.create('events', {
+		type: 'text',
+		parent: hackathon.id,
+		topic: 'Events you can participate in!',
+		permissionOverwrites: [
+			{
+				id: guild.id,
+				deny: ['SEND_MESSAGES']
+			},
+			{
+				id: organiser.id,
+				allow: ['SEND_MESSAGES', 'ATTACH_FILES']
+			}
+		]
+	});
+
+	await guild.channels.create('social', {
+		type: 'text',
+		parent: hackathon.id,
+		topic: 'Talk to other participants here!',
+		rateLimitPerUser: 5
+	});
+
+	const findATeam = await guild.channels.create('find-a-team', {
+		type: 'text',
+		parent: hackathon.id,
+		topic: 'A place where you can find other teammates!',
+		rateLimitPerUser: 5
+	});
+
+	let embed = new MessageEmbed()
+		.setTitle('Find a Team')
+		.setDescription(
+			'Chat here to find a team or some extra team mates!\n\n' +
+			'Once you\'ve found a team, visit [the website](http://auth.studenthack2020.com/) to create/' +
+			'join the team. Make sure to reidentify once you have done this!'
+		);
+
+	findATeam.send(embed);
+
+	const registration = await guild.channels.create('registration', {
+		type: 'text',
+		parent: hackathon.id,
+		topic: 'A place where you can find other teammates!',
+		permissionOverwrites: [
+			{
+				id: guild.id,
+				deny: ['SEND_MESSAGES']
+			}
+		]
+	});
+
+	embed = new MessageEmbed()
+		.setTitle('Registration')
+		.setDescription(
+			'Visit the StudentHack website to find your ID, then send me a message with it:\n\n' +
+			'e.g. `!identify 5e615d6f22681803b48199cf`'
+		);
+
+	registration.send(embed);
+
+	//
+	// Teams
+	//
 	await guild.channels.create('Teams', {
 		type: 'category',
 		permissionOverwrites: [

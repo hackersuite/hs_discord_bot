@@ -33,7 +33,12 @@ class SetupCommand extends Command {
 				status: TaskStatus.Completed
 			});
 		} catch (error) {
-			await task.update({ description: 'Failed to complete', status: TaskStatus.Failed });
+			client.loggers.bot.warn(`Error occurred for task ${task.id}`);
+			client.loggers.bot.warn(error);
+			await task.update({
+				description: `Failed to complete: ${(error as Error).message}`,
+				status: TaskStatus.Failed
+			});
 		}
 	}
 }

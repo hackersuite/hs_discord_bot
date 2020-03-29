@@ -27,7 +27,7 @@ export async function resetGuild(data: GuildResetData) {
 		}
 	}
 
-	const categoryNames = ['Staff', 'Teams'];
+	const categoryNames = ['Staff', 'Teams', 'Hackathon'];
 	for (const categoryName of categoryNames) {
 		const category = guild.channels.cache
 			.find(c => c.type === 'category' && c.name === categoryName) as CategoryChannel | undefined;
