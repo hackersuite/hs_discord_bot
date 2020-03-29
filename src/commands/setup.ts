@@ -13,8 +13,8 @@ class SetupCommand extends Command {
 
 	public async exec(message: Message) {
 		const client = message.client as HackathonClient;
-		if (!message.guild) return;
-		if (!client.ownerID.includes(message.author.id)) return;
+		const guild = message.client.guilds.cache.get(client.config.discord.guildID);
+		if (!guild || !client.ownerID.includes(message.author.id)) return;
 
 		const task = new Task({
 			title: 'Task: Setup Server',
@@ -25,7 +25,7 @@ class SetupCommand extends Command {
 
 		try {
 			await setupGuild({
-				guild: message.guild,
+				guild,
 				config: client.config
 			});
 			await task.update({

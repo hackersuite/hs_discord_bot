@@ -119,12 +119,21 @@ export async function setupGuild(data: GuildSetupData) {
 		]
 	});
 
-	await guild.channels.create('social', {
+	const social = await guild.channels.create('social', {
 		type: 'text',
 		parent: hackathon.id,
 		topic: 'Talk to other participants here!',
 		rateLimitPerUser: 5
 	});
+
+	const embed = new MessageEmbed()
+		.setTitle('Social')
+		.setDescription(
+			'Chat to other participants here about anything! Make sure to be respectful, ' +
+			'abusive or distasteful messages/images will be removed and you could lose access to this channel!'
+		)
+		.setColor('#fa9f66');
+	await social.send(embed);
 
 	const findATeam = await guild.channels.create('find-a-team', {
 		type: 'text',
@@ -133,36 +142,41 @@ export async function setupGuild(data: GuildSetupData) {
 		rateLimitPerUser: 5
 	});
 
-	let embed = new MessageEmbed()
+	embed
 		.setTitle('Find a Team')
 		.setDescription(
 			'Chat here to find a team or some extra team mates!\n\n' +
 			'Once you\'ve found a team, visit [the website](http://auth.studenthack2020.com/) to create/' +
 			'join the team. Make sure to reidentify once you have done this!'
 		);
-
-	findATeam.send(embed);
+	await findATeam.send(embed);
 
 	const registration = await guild.channels.create('registration', {
 		type: 'text',
 		parent: hackathon.id,
-		topic: 'A place where you can find other teammates!',
+		topic: 'Register first to gain full access to the server.',
 		permissionOverwrites: [
 			{
 				id: guild.id,
 				deny: ['SEND_MESSAGES']
+			},
+			{
+				id: accountLinked.id,
+				deny: ['VIEW_CHANNEL']
 			}
 		]
 	});
-
-	embed = new MessageEmbed()
-		.setTitle('Registration')
+	embed
+		.setTitle('You need to link your StudentHack account to gain access!')
 		.setDescription(
-			'Visit the StudentHack website to find your ID, then send me a message with it:\n\n' +
-			'e.g. `!identify 5e615d6f22681803b48199cf`'
+			'Before you can fully access the StudentHack server, you need to link your Discord account to ' +
+			'your StudentHack account.\n\n' +
+			'Visit the [StudentHack website](https://auth.studenthack2020.com/) to find your ID, then ' +
+			'send me a message with your ID:\n\n' +
+			'e.g. **`!identify 5e615d6f22681803b48199cf`**'
 		);
 
-	registration.send(embed);
+	await registration.send(embed);
 
 	//
 	// Teams
