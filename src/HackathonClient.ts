@@ -2,11 +2,14 @@ import { AkairoClient, CommandHandler } from 'discord-akairo';
 import { ApplicationConfig } from './util/config-loader';
 import { join } from 'path';
 import { AuthClient } from './hs_auth/client';
+import { createDBConnection } from './database';
+import { Connection } from 'typeorm';
 
 export class HackathonClient extends AkairoClient {
 	public readonly config: ApplicationConfig;
-	private readonly authClient: AuthClient;
+	public readonly authClient: AuthClient;
 	private readonly commandHandler: CommandHandler;
+	public databaseConnection?: Connection;
 
 	public constructor(config: ApplicationConfig) {
 		super({
@@ -37,7 +40,8 @@ export class HackathonClient extends AkairoClient {
 		return this.config.loggers;
 	}
 
-	public start() {
+	public async start() {
+		this.databaseConnection = await createDBConnection();
 		this.loggers.bot.info('Starting bot...');
 		this.login(this.config.discord.botToken);
 	}

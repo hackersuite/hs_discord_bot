@@ -117,4 +117,4 @@ dist
 # data
 
 data/config.json
-data/db.sqlite
+data/*.sqlite

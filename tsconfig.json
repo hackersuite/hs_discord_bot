@@ -21,7 +21,9 @@
 		"removeComments": false,
 		"alwaysStrict": true,
 		"allowSyntheticDefaultImports": true,
-		"pretty": true
+		"pretty": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"exclude": [
 		"src/**/*.test.ts",

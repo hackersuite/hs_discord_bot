@@ -21,9 +21,8 @@ export async function resetGuild(data: GuildResetData) {
 
 	const roleNames = ['Organiser', 'Volunteer', 'Attendee', 'Applicant', 'Unverified', 'Account Linked'];
 
-	for (const roleName of roleNames) {
-		const role = guild.roles.cache.find(role => role.name === roleName);
-		if (role) {
+	for (const role of guild.roles.cache.values()) {
+		if (roleNames.includes(role.name) || role.name.startsWith('Team ')) {
 			await role.delete();
 		}
 	}
