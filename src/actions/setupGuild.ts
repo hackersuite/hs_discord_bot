@@ -34,6 +34,8 @@ function makeRole(guild: Guild, data: RoleData) {
 export async function setupGuild(data: GuildSetupData) {
 	const { guild } = data;
 
+	await guild.setRegion('london');
+
 	const organiser = await makeRole(guild, { name: 'Organiser' });
 	const volunteer = await makeRole(guild, { name: 'Volunteer' });
 	await makeRole(guild, { name: 'Attendee' });

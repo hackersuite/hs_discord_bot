@@ -4,7 +4,11 @@ export function teamRoleName(teamNumber: number) {
 	return `Team ${teamNumber}`;
 }
 
-export function teamChannelName(teamNumber: number) {
+export function teamVoiceChannelName(teamNumber: number) {
+	return `Team ${teamNumber}`;
+}
+
+export function teamTextChannelName(teamNumber: number) {
 	return `team-${teamNumber}`;
 }
 
