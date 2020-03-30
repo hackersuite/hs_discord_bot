@@ -121,6 +121,18 @@ export async function setupGuild(data: GuildSetupData) {
 		]
 	});
 
+	await guild.channels.create('twitter', {
+		type: 'text',
+		parent: hackathon.id,
+		topic: 'The #studenthack2020 Twitter feed!',
+		permissionOverwrites: [
+			{
+				id: guild.id,
+				deny: ['SEND_MESSAGES']
+			}
+		]
+	});
+
 	const social = await guild.channels.create('social', {
 		type: 'text',
 		parent: hackathon.id,

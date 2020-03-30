@@ -9,5 +9,9 @@
     "hsAuth": {
         "url": "http://localhost:8000",
         "token": "Admin authorization token for HS services"
-    }
+    },
+	"twitter": {
+		"consumerKey": "string",
+		"consumerSecret": "string"
+	}
 }

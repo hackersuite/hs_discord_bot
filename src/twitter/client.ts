@@ -17,8 +17,9 @@ interface SearchResponse {
 }
 
 // This is very minimally defined, only what we need for a Hackathon
-interface Tweet {
+export interface Tweet {
 	id_str: string;
+	created_at: string;
 	user: {
 		screen_name: string;
 	};
@@ -82,10 +83,6 @@ export class TwitterClient {
 				Authorization: `Bearer ${this.bearerToken}`
 			}
 		});
-		const data: SearchResponse = await apiResponse.json();
-		const tweets = data.statuses.map(
-			tweet => `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
-		);
-		return { tweets, maxTweet: data.search_metadata.max_id_str };
+		return await apiResponse.json() as SearchResponse;
 	}
 }

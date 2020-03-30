@@ -8,7 +8,8 @@ const logger = pino();
 const loggers = {
 	app: logger,
 	bot: logger.child({ name: 'bot' }),
-	db: logger.child({ name: 'db' })
+	db: logger.child({ name: 'db' }),
+	twitter: logger.child({ name: 'twitter' })
 };
 
 const client = new HackathonClient({ loggers, ...config });

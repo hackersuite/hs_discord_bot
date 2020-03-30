@@ -1,2 +1,2 @@
-export { TwitterClient } from './client';
+export { TwitterClient, Tweet } from './client';
 export { TwitterStream } from './stream';

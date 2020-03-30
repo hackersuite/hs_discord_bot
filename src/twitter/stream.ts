@@ -1,19 +1,23 @@
 import { Readable } from 'stream';
 import { TwitterClient, TwitterClientConfig, SearchOptions } from './client';
+import { Logger } from 'pino';
 
-interface TwitterStreamConfig extends TwitterClientConfig, SearchOptions {
+interface TwitterStreamConfig extends TwitterClientConfig {
 	interval: number;
+	logger: Logger;
+	search: SearchOptions;
 }
 
 /**
  * Periodically searches for new tweets matching the given filters.
- * Pushes the URL for each tweet.
+ * Pushes all tweets.
  * @example
  * // Checks for new tweets every 5 seconds that match the given query
  * const stream = new TwitterStream({
  *   consumerKey,
  *   consumerSecret,
- *   q: '#studenthack2020 OR @studenthack2020',
+ *   logger,
+ *   search: { q: '#studenthack2020 OR @studenthack2020' },
  *   interval: 5000
  * });
  *
@@ -25,29 +29,38 @@ export class TwitterStream extends Readable {
 	private timeout?: NodeJS.Timeout;
 
 	public constructor(config: TwitterStreamConfig) {
-		super({ encoding: 'utf8', objectMode: true });
+		super({ objectMode: true });
 		this.client = new TwitterClient(config);
 		this.config = config;
 	}
 
 	public async _read() {
 		if (this.timeout === undefined) {
-			await this.client.generateBearerToken();
+			try {
+				await this.client.generateBearerToken();
+			} catch (error) {
+				this.destroy(error);
+				return;
+			}
 			this.fetch();
 		}
 	}
 
 	private async fetch(since?: string) {
-		const { tweets, maxTweet } = await this.client.searchTweets({
-			...this.config,
-			since_id: since || this.config.since_id
-		});
-		for (const tweet of tweets) {
-			if (!this.push(tweet)) {
-				return;
+		try {
+			const response = await this.client.searchTweets({
+				...this.config.search,
+				since_id: since || this.config.search.since_id
+			});
+			for (const tweet of response.statuses) {
+				if (!this.push(tweet)) {
+					return;
+				}
 			}
+			this.timeout = setTimeout(() => this.fetch(response.search_metadata.max_id_str), this.config.interval);
+		} catch (error) {
+			this.destroy(error);
 		}
-		this.timeout = setTimeout(() => this.fetch(maxTweet), this.config.interval);
 	}
 
 	public _destroy(error: Error | null, callback: (error?: Error | null) => void): void {

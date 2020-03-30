@@ -11,6 +11,10 @@ export interface HackathonConfig {
 		url: string;
 		token: string;
 	};
+	twitter: {
+		consumerKey: string;
+		consumerSecret: string;
+	};
 }
 
 export interface ApplicationConfig extends HackathonConfig {
@@ -18,6 +22,7 @@ export interface ApplicationConfig extends HackathonConfig {
 		app: Logger;
 		bot: Logger;
 		db: Logger;
+		twitter: Logger;
 	};
 }
 
