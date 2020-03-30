@@ -4,7 +4,7 @@ import { resetGuild } from '../actions/resetGuild';
 import { HackathonClient } from '../HackathonClient';
 import { Task, TaskStatus } from '../util/task';
 
-class ResetCommand extends Command {
+export default class ResetCommand extends Command {
 	public constructor() {
 		super('reset', {
 			aliases: ['reset']
@@ -41,5 +41,3 @@ class ResetCommand extends Command {
 		}
 	}
 }
-
-module.exports = ResetCommand;
