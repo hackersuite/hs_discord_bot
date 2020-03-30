@@ -8,7 +8,7 @@ interface IdentifyCommandArgs {
 	id: string;
 }
 
-class IdentifyCommand extends Command {
+export default class IdentifyCommand extends Command {
 	public constructor() {
 		super('identify', {
 			aliases: ['identify', 'register'],
@@ -80,5 +80,3 @@ class IdentifyCommand extends Command {
 		}
 	}
 }
-
-module.exports = IdentifyCommand;

@@ -4,7 +4,7 @@ import { setupGuild } from '../actions/setupGuild';
 import { HackathonClient } from '../HackathonClient';
 import { Task, TaskStatus } from '../util/task';
 
-class SetupCommand extends Command {
+export default class SetupCommand extends Command {
 	public constructor() {
 		super('setup', {
 			aliases: ['setup']
@@ -42,5 +42,3 @@ class SetupCommand extends Command {
 		}
 	}
 }
-
-module.exports = SetupCommand;
