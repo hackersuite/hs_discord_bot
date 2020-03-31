@@ -67,6 +67,12 @@ export async function setupGuild(data: GuildSetupData) {
 		topic: 'A discussion channel for organisers and volunteers!'
 	});
 
+	await guild.channels.create('twitter-staging', {
+		type: 'text',
+		parent: staff.id,
+		topic: 'Where tweets get sent to be approved'
+	});
+
 	await guild.channels.create('Staff Voice Chat', {
 		type: 'voice',
 		parent: staff.id

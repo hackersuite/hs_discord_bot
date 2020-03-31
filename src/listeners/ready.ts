@@ -3,7 +3,7 @@ import { TwitterStream, Tweet } from '../twitter';
 import { HackathonClient } from '../HackathonClient';
 import { TextChannel } from 'discord.js';
 
-export class ReadyListener extends Listener {
+export default class ReadyListener extends Listener {
 	private twitter?: TwitterStream;
 	private readonly started: Date;
 
@@ -29,17 +29,16 @@ export class ReadyListener extends Listener {
 				if (new Date(tweet.created_at) < this.started) return false;
 				const tweetURL = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
 				const guildID = client.config.discord.guildID;
-				const channel = client
-					.guilds.cache.get(guildID)
-					?.channels.cache.find(c => c.type === 'text' && c.name === 'twitter') as TextChannel | undefined;
+				const channel = client.guilds.cache.get(guildID)?.channels.cache
+					.find(c => c.type === 'text' && c.name === 'twitter-staging') as TextChannel | undefined;
 				if (!channel) {
-					logger.warn(`Tried to post ${tweetURL} in ${guildID}, couldn't find channel`);
+					logger.warn(`No staging channel for tweet ${tweetURL} in ${guildID}`);
 					return;
 				}
 				channel.send(tweetURL)
-					.then(() => logger.info(`Posted tweet ${tweetURL}`))
+					.then(() => logger.info(`Staged tweet ${tweetURL}`))
 					.catch(err => {
-						logger.warn(`Failed to post tweet ${tweetURL}:`);
+						logger.warn(`Failed to stage tweet ${tweetURL}:`);
 						logger.warn(err);
 					});
 			});
@@ -47,5 +46,3 @@ export class ReadyListener extends Listener {
 		console.log('I\'m ready!');
 	}
 }
-
-module.exports = ReadyListener;
