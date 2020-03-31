@@ -1,4 +1,4 @@
-import { AkairoClient, CommandHandler } from 'discord-akairo';
+import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { ApplicationConfig } from './util/config-loader';
 import { join } from 'path';
 import { AuthClient } from './hs_auth/client';
@@ -27,6 +27,12 @@ export class HackathonClient extends AkairoClient {
 			allowMention: true,
 			directory: join(__dirname, 'commands')
 		});
+
+		const listenerHandler = new ListenerHandler(this, {
+			directory: join(__dirname, 'listeners')
+		});
+		this.commandHandler.useListenerHandler(listenerHandler);
+		listenerHandler.loadAll();
 
 		this.authClient = new AuthClient({
 			apiBase: config.hsAuth.url,

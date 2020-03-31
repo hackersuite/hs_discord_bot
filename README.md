@@ -16,6 +16,7 @@ A Discord bot to assist with the online StudentHack 2020.
 - Links Discord user accounts to HS accounts
 - Creates private text and voice channels for teams
 - Creates a private area for organisers and volunteers to communicate
+- Integration with twitter to fetch tweets about the event
 
 ## License
 
