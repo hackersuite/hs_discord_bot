@@ -2,12 +2,11 @@
   "name": "hackathon-discord-bot",
   "version": "1.0.0",
   "description": "A Discord bot to assist with the online StudentHack 2020",
-  "main": "dist/index.js",
   "scripts": {
     "prebuild": "npm run test",
     "build": "rimraf dist && tsc",
     "test": "eslint src --ext .ts",
-    "start": "npm run build && node . | pino-pretty"
+    "start": "npm run build && node dist/scripts/start-bot | pino-pretty"
   },
   "repository": {
     "type": "git",

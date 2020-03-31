@@ -1,5 +1,5 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
-import { ApplicationConfig } from './util/config-loader';
+import { ApplicationConfig } from './util/config';
 import { join } from 'path';
 import { AuthClient } from './hs_auth/client';
 import { createDBConnection } from './database';

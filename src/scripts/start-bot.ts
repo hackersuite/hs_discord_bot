@@ -1,8 +1,8 @@
-import { HackathonClient } from './HackathonClient';
-import { loadConfig } from './util/config-loader';
+import { HackathonClient } from '../bot/HackathonClient';
+import { HackathonConfig } from '../bot/util/config';
 import * as pino from 'pino';
 
-const config = loadConfig();
+const config = require('../../data/config.json') as HackathonConfig;
 
 const logger = pino();
 const loggers = {

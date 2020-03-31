@@ -1,5 +1,5 @@
 import { Guild, RoleData, MessageEmbed } from 'discord.js';
-import { ApplicationConfig } from '../util/config-loader';
+import { ApplicationConfig } from '../util/config';
 
 /*
     Unverified = 0,

@@ -25,7 +25,3 @@ export interface ApplicationConfig extends HackathonConfig {
 		twitter: Logger;
 	};
 }
-
-export function loadConfig(): HackathonConfig {
-	return require('../../data/config.json') as HackathonConfig;
-}
