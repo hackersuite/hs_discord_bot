@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
 import { Command } from 'discord-akairo';
+import { getUser } from '@unicsmcr/hs_discord_bot_api_client';
 
 export default class PingCommand extends Command {
 	public constructor() {
@@ -8,8 +9,8 @@ export default class PingCommand extends Command {
 		});
 	}
 
-	public exec(message: Message) {
-		return message.reply('Pong!');
+	public async exec(message: Message) {
+		const user = await getUser(message.author.id);
+		return message.reply(`pong! You are ${user.name}`);
 	}
 }
-

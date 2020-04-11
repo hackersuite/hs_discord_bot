@@ -43,6 +43,5 @@ export default class ReadyListener extends Listener {
 					});
 			});
 		}
-		console.log('I\'m ready!');
 	}
 }

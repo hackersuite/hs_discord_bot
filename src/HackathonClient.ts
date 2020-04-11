@@ -1,12 +1,31 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
-import { ApplicationConfig } from './util/config-loader';
 import { join } from 'path';
-import { Connection } from 'typeorm';
+import { Logger } from 'pino';
+
+export interface ApplicationConfig {
+	discord: {
+		prefix: string;
+		botToken: string;
+		owners: string[];
+		guildID: string;
+	};
+	botApi: {
+		url: string;
+	};
+	twitter: {
+		consumerKey: string;
+		consumerSecret: string;
+	};
+	loggers: {
+		app: Logger;
+		bot: Logger;
+		twitter: Logger;
+	};
+}
 
 export class HackathonClient extends AkairoClient {
 	public readonly config: ApplicationConfig;
 	private readonly commandHandler: CommandHandler;
-	public databaseConnection?: Connection;
 
 	public constructor(config: ApplicationConfig) {
 		super({
