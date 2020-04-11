@@ -1,15 +1,31 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
-import { ApplicationConfig } from './util/config-loader';
 import { join } from 'path';
-import { AuthClient } from './hs_auth/client';
-import { createDBConnection } from './database';
-import { Connection } from 'typeorm';
+import { Logger } from 'pino';
+
+export interface ApplicationConfig {
+	discord: {
+		prefix: string;
+		botToken: string;
+		owners: string[];
+		guildID: string;
+	};
+	botApi: {
+		url: string;
+	};
+	twitter: {
+		consumerKey: string;
+		consumerSecret: string;
+	};
+	loggers: {
+		app: Logger;
+		bot: Logger;
+		twitter: Logger;
+	};
+}
 
 export class HackathonClient extends AkairoClient {
 	public readonly config: ApplicationConfig;
-	public readonly authClient: AuthClient;
 	private readonly commandHandler: CommandHandler;
-	public databaseConnection?: Connection;
 
 	public constructor(config: ApplicationConfig) {
 		super({
@@ -34,11 +50,6 @@ export class HackathonClient extends AkairoClient {
 		this.commandHandler.useListenerHandler(listenerHandler);
 		listenerHandler.loadAll();
 
-		this.authClient = new AuthClient({
-			apiBase: config.hsAuth.url,
-			token: config.hsAuth.token
-		});
-
 		this.commandHandler.loadAll();
 	}
 
@@ -46,9 +57,7 @@ export class HackathonClient extends AkairoClient {
 		return this.config.loggers;
 	}
 
-	public async start() {
-		this.databaseConnection = await createDBConnection();
-		this.loggers.bot.info('Starting bot...');
-		this.login(this.config.discord.botToken);
+	public start() {
+		return this.login(this.config.discord.botToken);
 	}
 }
