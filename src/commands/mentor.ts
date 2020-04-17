@@ -1,6 +1,6 @@
 import { Message, TextChannel, DMChannel } from 'discord.js';
 import { Command } from 'discord-akairo';
-import { modifyUserRoles, getUser } from '@unicsmcr/hs_discord_bot_api_client';
+import { modifyUserRoles, getUser, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
 import { Task, TaskStatus } from '../util/task';
 
 const MentorMappings = {
@@ -45,20 +45,27 @@ export default class MentorCommand extends Command {
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
 		const roles = args.roles.split(' ');
-		const mappedRoles = [];
+		const langRoles = [];
 		for (const [roleName, resourceName] of Object.entries(MentorMappings)) {
 			if (roles.includes(roleName)) {
-				mappedRoles.push(resourceName);
+				langRoles.push(resourceName);
 			}
 		}
 		try {
-			const existingRoles = (await getUser(message.author.id)).roles
+			const user = await getUser(message.author.id);
+			if (user.authLevel < AuthLevel.Volunteer) {
+				return task.update({
+					status: TaskStatus.Failed,
+					description: 'Sorry, you need to be a volunteer or organiser to use this command.'
+				});
+			}
+			const existingRoles = user.roles
 				.map(res => res.name)
 				.filter(name => !name.startsWith('role.languages'));
 
 			await modifyUserRoles(message.author.id, {
 				method: 'set',
-				roles: existingRoles.concat(mappedRoles)
+				roles: existingRoles.concat(langRoles)
 			});
 
 			task.update({
