@@ -16,7 +16,9 @@ const MentorMappings = {
 	'rust': 'role.languages.rust',
 	'scala': 'role.languages.scala',
 	'ruby': 'role.languages.ruby',
-	'html+css': 'role.languages.html_css'
+	'html+css': 'role.languages.html_css',
+	'html': 'role.languages.html_css',
+	'css': 'role.languages.html_css'
 };
 
 export default class MentorCommand extends Command {
