@@ -1,6 +1,7 @@
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { join } from 'path';
 import { Logger } from 'pino';
+import MuteTracker from './util/MuteTracker';
 
 export interface ApplicationConfig {
 	discord: {
@@ -25,7 +26,9 @@ export interface ApplicationConfig {
 
 export class HackathonClient extends AkairoClient {
 	public readonly config: ApplicationConfig;
+	public readonly muteTracker: MuteTracker;
 	private readonly commandHandler: CommandHandler;
+
 
 	public constructor(config: ApplicationConfig) {
 		super({
@@ -33,6 +36,8 @@ export class HackathonClient extends AkairoClient {
 		});
 
 		this.config = config;
+
+		this.muteTracker = new MuteTracker();
 
 		this.on('debug', msg => this.loggers.bot.info(msg));
 

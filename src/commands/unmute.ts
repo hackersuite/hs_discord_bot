@@ -1,7 +1,8 @@
-import { Message, TextChannel, DMChannel, GuildMember } from 'discord.js';
+import { Message, TextChannel, DMChannel, GuildMember, MessageEmbed } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { modifyUserRoles, getUser, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
 import { Task, TaskStatus } from '../util/task';
+import { HackathonClient } from '../HackathonClient';
 
 export default class MuteCommand extends Command {
 	public constructor() {
@@ -23,6 +24,9 @@ export default class MuteCommand extends Command {
 	}
 
 	public async exec(message: Message, args: { target: GuildMember }) {
+		const client = message.client as HackathonClient;
+		const modChannel = client.guilds.cache.get(client.config.discord.guildID)?.channels.cache
+			.find(c => c.name === 'moderation') as TextChannel;
 		const task = new Task({
 			title: 'Unmute Member',
 			issuer: message.author,
@@ -39,10 +43,21 @@ export default class MuteCommand extends Command {
 				});
 			}
 
+			client.muteTracker.delete(args.target.id);
+
 			await modifyUserRoles(args.target.id, {
 				method: 'remove',
 				roles: ['role.muted']
 			});
+
+			const crosspost = new MessageEmbed()
+				.setAuthor(args.target.user.tag, args.target.user.displayAvatarURL())
+				.setTimestamp(new Date())
+				.setTitle(`Unmuted by ${message.author.tag}`)
+				.setColor('#9cffab')
+				.setFooter(`User ID: ${args.target.id} | Mod ID: ${message.author.id}`);
+
+			await modChannel.send(crosspost);
 
 			task.update({
 				status: TaskStatus.Completed,
