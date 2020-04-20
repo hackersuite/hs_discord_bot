@@ -6,7 +6,7 @@ A Discord bot to assist with the online StudentHack 2020.
 
 ## Usage
 
-1. Create `data/config.json` (see `data/config.example.json` for the required settings)
+1. Configure `.env` file (see `.env.example`)
 2. `npm install`
 3. `npm start`
 
