@@ -48,7 +48,7 @@ export default class MessageListener extends Listener {
 		const client = this.client as HackathonClient;
 		if (message.guild?.id !== client.config.discord.guildID) return;
 		const channel = message.channel as TextChannel;
-		if (channel.name.startsWith('team-')) return;
+		if (!channel.parent || channel.parent.name.toLowerCase() !== 'hackathon') return;
 		if (this.filter.isProfane(message.content)) {
 			try {
 				await this.execProfane(message);
