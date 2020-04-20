@@ -27,7 +27,7 @@ export default class MessageListener extends Listener {
 			.setFooter(`User ID: ${message.author.id}`)
 			.addField('Channel', message.channel);
 
-		const promises = [message.delete()];
+		const promises: Promise<any>[] = [message.delete()];
 
 		if (client.muteTracker.increment(message.author.id) > 2) {
 			crosspost.setTitle('Automatic Mute').setColor('#fc0303');
