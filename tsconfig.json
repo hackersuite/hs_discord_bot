@@ -23,7 +23,8 @@
 		"allowSyntheticDefaultImports": true,
 		"pretty": true,
 		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true
 	},
 	"exclude": [
 		"src/**/*.test.ts",
