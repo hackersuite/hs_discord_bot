@@ -1,5 +1,5 @@
 import { HackathonClient, ApplicationConfig } from './HackathonClient';
-import * as pino from 'pino';
+import pino from 'pino';
 
 function getEnv(name: string) {
 	const val = process.env[name];
