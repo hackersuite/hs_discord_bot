@@ -8,7 +8,7 @@ export enum TaskStatus {
 
 const TaskStatusColourMap = {
 	[TaskStatus.Active]: '#fffa9c',
-	[TaskStatus.Completed]: '#ff9c9c',
+	[TaskStatus.Completed]: '#9cffab',
 	[TaskStatus.Failed]: '#ff0000'
 };
 
