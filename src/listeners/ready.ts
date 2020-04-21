@@ -13,7 +13,7 @@ export default class ReadyListener extends Listener {
 			emitter: 'client',
 			event: 'ready'
 		});
-		this.started = new Date(0);
+		this.started = new Date();
 	}
 
 	private async transformImage(url: string) {
