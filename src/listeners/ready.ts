@@ -27,8 +27,8 @@ export default class ReadyListener extends Listener {
 	}
 
 	private async transformTweet(tweet: Tweet) {
-		const images = tweet.extended_entities.media?.filter(entity => entity.type === 'photo');
-		if (!images || images.length === 0 || tweet.extended_entities.media?.some(entity => entity.type !== 'photo')) return undefined;
+		const images = tweet.extended_entities?.media?.filter(entity => entity.type === 'photo');
+		if (!images || images.length === 0 || tweet.extended_entities?.media?.some(entity => entity.type !== 'photo')) return undefined;
 		const files = await Promise.all(images.map(image => this.transformImage(image.media_url)));
 
 		return new MessageEmbed()

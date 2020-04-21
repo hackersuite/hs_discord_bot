@@ -32,7 +32,7 @@ export interface Tweet {
 		screen_name: string;
 		profile_image_url: string;
 	};
-	extended_entities: {
+	extended_entities?: {
 		media?: {
 			media_url: string;
 			media_url_https: string;

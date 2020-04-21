@@ -35,6 +35,8 @@ export class HackathonClient extends AkairoClient {
 	public constructor(config: ApplicationConfig) {
 		super({
 			ownerID: config.discord.owners
+		}, {
+			partials: ['MESSAGE', 'REACTION']
 		});
 
 		this.config = config;
