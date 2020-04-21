@@ -26,10 +26,13 @@ interface Size {
 export interface Tweet {
 	id_str: string;
 	created_at: string;
+	text: string;
 	user: {
+		name: string;
 		screen_name: string;
+		profile_image_url: string;
 	};
-	entities: {
+	extended_entities: {
 		media?: {
 			media_url: string;
 			media_url_https: string;
