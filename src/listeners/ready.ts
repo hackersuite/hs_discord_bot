@@ -27,16 +27,16 @@ export default class ReadyListener extends Listener {
 	}
 
 	private async transformTweet(tweet: Tweet) {
-		const images = tweet.extended_entities?.media?.filter(entity => entity.type === 'photo');
-		if (!images || images.length === 0 || tweet.extended_entities?.media?.some(entity => entity.type !== 'photo')) return undefined;
-		const files = await Promise.all(images.map(image => this.transformImage(image.media_url)));
+		const image = tweet.extended_entities?.media?.find(entity => entity.type === 'photo');
+		if (!image || tweet.extended_entities?.media?.some(entity => entity.type !== 'photo')) return undefined;
+		const file = await this.transformImage(image.media_url);
 
 		return new MessageEmbed()
 			.setAuthor(`${tweet.user.name} (${tweet.user.screen_name})`, tweet.user.profile_image_url)
 			.setDescription(tweet.text)
 			.setColor(0x1DA1F2)
 			.setTimestamp(new Date(tweet.created_at))
-			.attachFiles(files)
+			.attachFiles([file])
 			.setImage('attachment://tweet.jpg');
 	}
 
@@ -68,6 +68,10 @@ export default class ReadyListener extends Listener {
 						logger.warn(`Failed to stage tweet ${tweetURL}:`);
 						logger.warn(err);
 					});
+			});
+			this.twitter.on('warn', (error: Error) => {
+				logger.warn('Error on Twitter update stream:');
+				logger.warn(error);
 			});
 		}
 	}
