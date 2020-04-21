@@ -89,7 +89,6 @@ export class TwitterClient {
 			throw new Error(`Did not get a bearer token: ${JSON.stringify(data)}`);
 		}
 		this.bearerToken = data.access_token;
-		console.log(this.bearerToken);
 		return data.access_token;
 	}
 
