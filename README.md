@@ -1,6 +1,6 @@
-# hackathon-discord-bot
+# hs_discord_bot
 
-![CI](https://github.com/unicsmcr/hackathon-discord-bot/workflows/CI/badge.svg)
+![CI](https://github.com/unicsmcr/hs_discord_bot/workflows/CI/badge.svg)
 
 A Discord bot to assist with the online StudentHack 2020.
 
