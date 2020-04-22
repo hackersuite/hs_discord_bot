@@ -7,16 +7,16 @@ A Discord bot to assist with the online StudentHack 2020.
 ## Usage
 
 1. Configure `.env` file (see `.env.example`)
-2. `npm install`
-3. `npm start`
+2. `make up-dev`
 
 ## Current Features
 
-- Can setup a Discord guild (create roles and channels) for Hackathon usage with `!setup`
+- Can setup a Discord guild (create roles and channels) for Hackathon usage
 - Links Discord user accounts to HS accounts
 - Creates private text and voice channels for teams
 - Creates a private area for organisers and volunteers to communicate
-- Integration with twitter to fetch tweets about the event
+- Integration with twitter to fetch tweets about the event, applies hackathon logo to images
+- Basic moderation; automatic profanity filter, and manual mute/unmute commands
 
 ## License
 
