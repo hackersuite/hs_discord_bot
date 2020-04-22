@@ -46,7 +46,7 @@ export default class ReadyListener extends Listener {
 		if (!this.twitter) {
 			this.twitter = new TwitterStream({
 				...client.config.twitter,
-				search: { q: '#studenthack2020 OR @studenthack2020' },
+				search: { q: '#studenthack2020 OR #studenthack8 OR #sh8' },
 				interval: 5000,
 				logger
 			});
