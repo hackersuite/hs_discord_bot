@@ -1,6 +1,9 @@
 import { HackathonClient, ApplicationConfig } from './HackathonClient';
 import pino from 'pino';
 import { loadImage } from 'canvas';
+import { config as loadEnv } from 'dotenv';
+
+loadEnv();
 
 function getEnv(name: string) {
 	const val = process.env[name];

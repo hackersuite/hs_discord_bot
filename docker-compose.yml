@@ -1,0 +1,19 @@
+version: "2.1"
+services:
+  hs_discord_bot:
+    image: hs_discord_bot:latest
+    container_name: hs_discord_bot
+    env_file: .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal
+    restart: unless-stopped
+
+# The network allows multiple containers to connect together
+networks:
+  # internal network for hs_hub services
+  internal:
+    name: internal
+    driver: bridge
