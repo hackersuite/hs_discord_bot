@@ -2,6 +2,7 @@ import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { join } from 'path';
 import { Logger } from 'pino';
 import MuteTracker from './util/MuteTracker';
+import { Image } from 'canvas';
 
 export interface ApplicationConfig {
 	discord: {
@@ -16,6 +17,7 @@ export interface ApplicationConfig {
 	twitter: {
 		consumerKey: string;
 		consumerSecret: string;
+		watermark: Image;
 	};
 	loggers: {
 		app: Logger;
@@ -33,6 +35,8 @@ export class HackathonClient extends AkairoClient {
 	public constructor(config: ApplicationConfig) {
 		super({
 			ownerID: config.discord.owners
+		}, {
+			partials: ['MESSAGE', 'REACTION']
 		});
 
 		this.config = config;

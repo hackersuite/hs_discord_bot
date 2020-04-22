@@ -16,12 +16,34 @@ interface SearchResponse {
 	};
 }
 
+interface Size {
+	w: number;
+	h: number;
+	resize: 'crop' | 'fit';
+}
+
 // This is very minimally defined, only what we need for a Hackathon
 export interface Tweet {
 	id_str: string;
 	created_at: string;
+	text: string;
 	user: {
+		name: string;
 		screen_name: string;
+		profile_image_url: string;
+	};
+	extended_entities?: {
+		media?: {
+			media_url: string;
+			media_url_https: string;
+			type: string; // photo
+			sizes: {
+				thumb: Size;
+				small: Size;
+				medium: Size;
+				large: Size;
+			};
+		}[];
 	};
 }
 

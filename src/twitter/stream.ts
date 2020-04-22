@@ -59,7 +59,8 @@ export class TwitterStream extends Readable {
 			}
 			this.timeout = setTimeout(() => this.fetch(response.search_metadata.max_id_str), this.config.interval);
 		} catch (error) {
-			this.destroy(error);
+			this.emit('warn', error);
+			this.timeout = setTimeout(() => this.fetch(since), this.config.interval * 5);
 		}
 	}
 

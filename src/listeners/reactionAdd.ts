@@ -11,14 +11,16 @@ export default class ReactionAddListener extends Listener {
 	}
 
 	public async approve(message: Message, user: User, targetChannel: TextChannel) {
-		const tweetURL = message.content;
-		const publicMessage = await targetChannel.send(message.content);
+		const tweetURL = message.content || message.embeds[0].fields[0].value;
+		const newEmbed = message.content ? undefined : message.embeds[0];
+		const publicMessage = await targetChannel.send(message.content, { embed: newEmbed });
 		const embed = new MessageEmbed()
 			.setTitle('Tweet Approved')
 			.setAuthor(user.tag, user.displayAvatarURL())
 			.setDescription(`Approved tweet ${tweetURL}\n\n**[Jump to message](${publicMessage.url})**`)
 			.setColor('#a1ff9c')
-			.setTimestamp(new Date());
+			.setTimestamp(new Date())
+			.setThumbnail('attachment://tweet.jpg');
 		await message.edit(null, embed);
 		return tweetURL;
 	}
@@ -36,6 +38,12 @@ export default class ReactionAddListener extends Listener {
 	}
 
 	public async exec(reaction: MessageReaction, user: User) {
+		if (reaction.partial) {
+			await reaction.fetch();
+		}
+		if (reaction.message.partial) {
+			await reaction.message.fetch();
+		}
 		const client = user.client as HackathonClient;
 		const logger = client.config.loggers.twitter;
 		const channel = reaction.message.channel;
@@ -46,8 +54,7 @@ export default class ReactionAddListener extends Listener {
 			channel.name === 'twitter-staging' &&
 			['👍', '👎'].includes(reaction.emoji.name) &&
 			reaction.count === 1 &&
-			reaction.message.embeds.length > 0 &&
-			reaction.message.content.includes('https://twitter.com/');
+			reaction.message.embeds.length > 0;
 
 		if (shouldExec) {
 			const action = reaction.emoji.name === '👍' ? 'approve' : 'reject';
