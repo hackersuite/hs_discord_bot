@@ -18,7 +18,11 @@ const MentorMappings = {
 	'ruby': 'role.languages.ruby',
 	'html+css': 'role.languages.html_css',
 	'html': 'role.languages.html_css',
-	'css': 'role.languages.html_css'
+	'css': 'role.languages.html_css',
+	'react': 'role.languages.react',
+	'vue': 'role.languages.vue',
+	'android': 'role.languages.android',
+	'php': 'role.languages.php'
 };
 
 export default class MentorCommand extends Command {
