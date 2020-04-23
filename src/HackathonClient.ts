@@ -44,6 +44,7 @@ export class HackathonClient extends AkairoClient {
 		this.muteTracker = new MuteTracker();
 
 		this.on('debug', msg => this.loggers.bot.info(msg));
+		this.on('error', (error: Error) => this.loggers.bot.error(error));
 
 		this.commandHandler = new CommandHandler(this, {
 			blockBots: true,
