@@ -58,6 +58,7 @@
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "form-data": "^3.0.0",
+    "humanize-duration": "^3.22.0",
     "node-fetch": "^2.6.0",
     "pino": "^5.17.0"
   }

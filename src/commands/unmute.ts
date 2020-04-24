@@ -14,8 +14,7 @@ export default class MuteCommand extends Command {
 					type: 'member',
 					prompt: {
 						start: 'Who would you like to unmute?',
-						retry: 'That\'s not a valid member! Try again.',
-						optional: true
+						retry: 'That\'s not a valid member! Try again.'
 					}
 				}
 			],

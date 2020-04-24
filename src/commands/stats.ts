@@ -3,6 +3,7 @@ import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
 import { HackathonClient } from '../HackathonClient';
 import { getTeams, getUsers } from '@unicsmcr/hs_discord_bot_api_client';
+import humanizeDuration from 'humanize-duration';
 
 export default class StatsCommand extends Command {
 	public constructor() {
@@ -39,6 +40,10 @@ export default class StatsCommand extends Command {
 				{
 					name: 'Teams',
 					value: teams.length
+				},
+				{
+					name: 'Uptime',
+					value: client.uptime ? humanizeDuration(client.uptime) : 'Undefined'
 				}
 			);
 			task.update({});
