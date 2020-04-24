@@ -61,6 +61,7 @@ export default class MuteCommand extends Command {
 				description: `Muted **${args.target.user.tag}** (${args.target.id})`
 			});
 		} catch (err) {
+			client.loggers.bot.warn(err);
 			task.update({
 				status: TaskStatus.Failed,
 				description: `An error occurred processing your request. Please try again later.`
