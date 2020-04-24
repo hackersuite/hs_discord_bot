@@ -1,7 +1,7 @@
 import { Message, TextChannel, DMChannel, User } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
-import { syncAccount } from '@unicsmcr/hs_discord_bot_api_client';
+import { syncAccount, getUser, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
 
 export default class SyncCommand extends Command {
 	public constructor() {
@@ -24,14 +24,21 @@ export default class SyncCommand extends Command {
 		const task = new Task({
 			title: 'User sync',
 			issuer: message.author,
-			description: `Syncing state for ${args.target.tag}`
+			description: `Syncing account state`
 		});
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 		try {
-			await syncAccount(args.target.id);
+			let target = args.target;
+			if (target.id !== message.author.id) {
+				const issuer = await getUser(message.author.id);
+				if (issuer.authLevel < AuthLevel.Volunteer) {
+					target = message.author;
+				}
+			}
+			await syncAccount(target.id);
 			await task.update({
 				status: TaskStatus.Completed,
-				description: `Synced state for ${args.target.tag}!`
+				description: `Synced state for ${target.tag}!`
 			});
 		} catch (error) {
 			await task.update({
