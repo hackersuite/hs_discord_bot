@@ -2,7 +2,7 @@ import { Message, TextChannel, DMChannel } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
 import { HackathonClient } from '../HackathonClient';
-import { getTeams, getUsers } from '@unicsmcr/hs_discord_bot_api_client';
+import { getTeams, getUsers, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
 import humanizeDuration from 'humanize-duration';
 
 export default class StatsCommand extends Command {
@@ -32,10 +32,16 @@ export default class StatsCommand extends Command {
 			task.status = TaskStatus.Completed;
 			task.description = '';
 			const [users, teams] = await Promise.all([getUsers(), getTeams()]);
+			const participants = users.filter(user => user.authLevel === AuthLevel.Attendee).length;
+			const volunteers = users.filter(user => user.authLevel === AuthLevel.Volunteer).length;
 			task.addFields(
 				{
 					name: 'Participants in Discord server',
-					value: users.length
+					value: participants
+				},
+				{
+					name: 'Volunteers in Discord server',
+					value: volunteers
 				},
 				{
 					name: 'Teams',
