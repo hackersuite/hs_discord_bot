@@ -32,7 +32,6 @@ export default class MentorCommand extends Command {
 			args: [
 				{
 					id: 'roles',
-					type: 'lowercase',
 					match: 'content'
 				}
 			],
@@ -42,19 +41,21 @@ export default class MentorCommand extends Command {
 
 	public async exec(message: Message, args: { roles: string }) {
 		const task = new Task({
-			title: 'Update Mentor Roles',
+			title: 'Update Mentor Roles (local)',
 			issuer: message.author,
 			description: 'Updating your mentoring status...'
 		});
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
-		const roles = args.roles.split(' ');
+		const roles = (args.roles?.toLowerCase() || '').split(' ');
+		console.log('HELLO', roles);
 		const langRoles = [];
 		for (const [roleName, resourceName] of Object.entries(MentorMappings)) {
 			if (roles.includes(roleName)) {
 				langRoles.push(resourceName);
 			}
 		}
+		console.log('BOP', langRoles);
 		try {
 			const user = await getUser(message.author.id);
 			if (user.authLevel < AuthLevel.Volunteer) {
