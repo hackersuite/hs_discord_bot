@@ -48,7 +48,7 @@ export default class MentorCommand extends Command {
 		});
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
-		const roles = args.roles;
+		const roles = args.roles || [];
 		const langRoles = [];
 		for (const [roleName, resourceName] of Object.entries(MentorMappings)) {
 			if (roles.includes(roleName)) {
