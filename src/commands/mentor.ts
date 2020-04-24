@@ -32,30 +32,29 @@ export default class MentorCommand extends Command {
 			args: [
 				{
 					id: 'roles',
-					match: 'content'
+					match: 'separate',
+					type: 'lowercase'
 				}
 			],
 			channel: 'guild'
 		});
 	}
 
-	public async exec(message: Message, args: { roles: string }) {
+	public async exec(message: Message, args: { roles: string[] }) {
 		const task = new Task({
-			title: 'Update Mentor Roles (local)',
+			title: 'Update Mentor Roles (local2)',
 			issuer: message.author,
 			description: 'Updating your mentoring status...'
 		});
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
-		const roles = (args.roles?.toLowerCase() || '').split(' ');
-		console.log('HELLO', roles);
+		const roles = args.roles;
 		const langRoles = [];
 		for (const [roleName, resourceName] of Object.entries(MentorMappings)) {
 			if (roles.includes(roleName)) {
 				langRoles.push(resourceName);
 			}
 		}
-		console.log('BOP', langRoles);
 		try {
 			const user = await getUser(message.author.id);
 			if (user.authLevel < AuthLevel.Volunteer) {
@@ -73,7 +72,7 @@ export default class MentorCommand extends Command {
 				roles: existingRoles.concat(langRoles)
 			});
 
-			task.update({
+			await task.update({
 				status: TaskStatus.Completed,
 				description: 'Your new mentor roles have been set!'
 			});
