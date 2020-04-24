@@ -1,8 +1,9 @@
-import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
+import { AkairoClient, CommandHandler, ListenerHandler, Command } from 'discord-akairo';
 import { join } from 'path';
 import { Logger } from 'pino';
 import MuteTracker from './util/MuteTracker';
 import { Image } from 'canvas';
+import { Message } from 'discord.js';
 
 export interface ApplicationConfig {
 	discord: {
@@ -52,6 +53,10 @@ export class HackathonClient extends AkairoClient {
 			prefix: config.discord.prefix,
 			allowMention: true,
 			directory: join(__dirname, 'commands')
+		});
+
+		this.commandHandler.on('cooldown', (message: Message, command: Command, remaining: number) => {
+			message.reply(`You can't use that command for another ${Math.ceil(remaining / 1000)} seconds.`);
 		});
 
 		const listenerHandler = new ListenerHandler(this, {
