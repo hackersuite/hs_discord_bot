@@ -13,7 +13,10 @@ export default class SyncCommand extends Command {
 					'type': 'user',
 					'default': (message: Message) => message.author
 				}
-			]
+			],
+			// One use per minute to stop abuse of API
+			cooldown: 60e3,
+			ratelimit: 1
 		});
 	}
 
