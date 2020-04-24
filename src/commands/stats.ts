@@ -48,11 +48,11 @@ export default class StatsCommand extends Command {
 			);
 			task.update({});
 		} catch (error) {
+			client.loggers.bot.warn(error);
 			task.update({
 				status: TaskStatus.Failed,
 				description: `An error occurred processing your request. Please try again later.`
 			});
-			console.log(error);
 		}
 	}
 }
