@@ -56,7 +56,9 @@ export class HackathonClient extends AkairoClient {
 		});
 
 		this.commandHandler.on('cooldown', (message: Message, command: Command, remaining: number) => {
-			message.reply(`You can't use that command for another ${Math.ceil(remaining / 1000)} seconds.`);
+			message
+				.reply(`You can't use that command for another ${Math.ceil(remaining / 1000)} seconds.`)
+				.catch(err => this.loggers.bot.warn(err));
 		});
 
 		const listenerHandler = new ListenerHandler(this, {
