@@ -32,20 +32,49 @@ export default class StatsCommand extends Command {
 			task.status = TaskStatus.Completed;
 			task.description = '';
 			const [users, teams] = await Promise.all([getUsers(), getTeams()]);
-			const participants = users.filter(user => user.authLevel === AuthLevel.Attendee).length;
-			const volunteers = users.filter(user => user.authLevel === AuthLevel.Volunteer).length;
+			const participants = users.filter(user => user.authLevel === AuthLevel.Attendee);
+			const volunteers = users.filter(user => user.authLevel === AuthLevel.Volunteer);
+			const teamMembers: Map<string, number> = new Map();
+			let nonTeam = 0;
+			for (const user of participants) {
+				if (user.team) {
+					teamMembers.set(user.team, (teamMembers.get(user.team) || 0) + 1);
+				} else {
+					nonTeam++;
+				}
+			}
+			const teams4 = [...teamMembers.values()].filter(n => n >= 4).length;
+			const teams3 = [...teamMembers.values()].filter(n => n === 3).length;
+			const teams2 = [...teamMembers.values()].filter(n => n === 2).length;
+			const teams1 = [...teamMembers.values()].filter(n => n === 1).length;
 			task.addFields(
 				{
 					name: 'Participants in Discord server',
-					value: participants
+					value: participants.length
 				},
 				{
 					name: 'Volunteers in Discord server',
-					value: volunteers
+					value: volunteers.length
 				},
 				{
 					name: 'Teams',
 					value: teams.length
+				},
+				{
+					name: 'Users in teams of 4 (or more?)',
+					value: teams4 * 4
+				},
+				{
+					name: 'Users in teams of 3',
+					value: teams3 * 3
+				},
+				{
+					name: 'Users in teams of 2',
+					value: teams2 * 2
+				},
+				{
+					name: 'Users in teams of 1 / not in a team',
+					value: teams1 + nonTeam
 				},
 				{
 					name: 'Uptime',
