@@ -20,7 +20,8 @@ export default class ListenersCommand extends Command {
 		const task = new Task({
 			title: 'Workshop listeners',
 			issuer: message.author,
-			description: members.array().map(member => member.user.tag).sort()
+			description: members.array().map(member => member.user.tag)
+				.sort((a, b) => a.localeCompare(b))
 				.join('\n'),
 			status: TaskStatus.Completed
 		}).addField('Workshop viewer count', members.size);
