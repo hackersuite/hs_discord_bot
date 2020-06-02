@@ -18,6 +18,7 @@ export interface ApplicationConfig {
 	twitter: {
 		consumerKey: string;
 		consumerSecret: string;
+		query: string;
 		watermark: Image;
 	};
 	loggers: {

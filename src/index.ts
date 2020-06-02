@@ -30,6 +30,7 @@ loadImage('./assets/twitter_watermark.png')
 			twitter: {
 				consumerKey: getEnv('TWITTER_CONSUMER_KEY'),
 				consumerSecret: getEnv('TWITTER_CONSUMER_SECRET'),
+				query: getEnv('TWITTER_QUERY'),
 				watermark
 			},
 			loggers: {
