@@ -2,6 +2,7 @@ import { Message, TextChannel, DMChannel } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { modifyUserRoles, getUser, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
 import { Task, TaskStatus } from '../util/task';
+import { HackathonClient } from '../HackathonClient';
 
 const MentorMappings = {
 	'python': 'role.languages.python',
@@ -32,15 +33,16 @@ export default class MentorCommand extends Command {
 			args: [
 				{
 					id: 'roles',
-					type: 'lowercase',
-					match: 'content'
+					match: 'separate',
+					type: 'lowercase'
 				}
 			],
 			channel: 'guild'
 		});
 	}
 
-	public async exec(message: Message, args: { roles: string }) {
+	public async exec(message: Message, args: { roles: string[] }) {
+		const client = this.client as HackathonClient;
 		const task = new Task({
 			title: 'Update Mentor Roles',
 			issuer: message.author,
@@ -48,7 +50,7 @@ export default class MentorCommand extends Command {
 		});
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
-		const roles = args.roles.split(' ');
+		const roles = args.roles || [];
 		const langRoles = [];
 		for (const [roleName, resourceName] of Object.entries(MentorMappings)) {
 			if (roles.includes(roleName)) {
@@ -72,11 +74,12 @@ export default class MentorCommand extends Command {
 				roles: existingRoles.concat(langRoles)
 			});
 
-			task.update({
+			await task.update({
 				status: TaskStatus.Completed,
 				description: 'Your new mentor roles have been set!'
 			});
 		} catch (err) {
+			client.loggers.bot.warn(err);
 			task.update({
 				status: TaskStatus.Failed,
 				description: `An error occurred processing your request. Please try again later.`

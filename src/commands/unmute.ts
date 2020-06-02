@@ -14,8 +14,7 @@ export default class MuteCommand extends Command {
 					type: 'member',
 					prompt: {
 						start: 'Who would you like to unmute?',
-						retry: 'That\'s not a valid member! Try again.',
-						optional: true
+						retry: 'That\'s not a valid member! Try again.'
 					}
 				}
 			],
@@ -64,6 +63,7 @@ export default class MuteCommand extends Command {
 				description: `Unmuted **${args.target.user.tag}** (${args.target.id})`
 			});
 		} catch (err) {
+			client.loggers.bot.warn(err);
 			task.update({
 				status: TaskStatus.Failed,
 				description: `An error occurred processing your request. Please try again later.`
