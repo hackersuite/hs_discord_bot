@@ -1,6 +1,6 @@
 export default class MuteTracker extends Map<string, number> {
 	public get(key: string) {
-		return super.get(key) || 0;
+		return super.get(key) ?? 0;
 	}
 
 	public increment(key: string) {

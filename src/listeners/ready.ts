@@ -51,23 +51,27 @@ export default class ReadyListener extends Listener {
 				logger
 			});
 			this.twitter.on('data', async (tweet: Tweet) => {
-				const tweetURL = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
-				if (new Date(tweet.created_at) < this.started) return false;
-				const guildID = client.config.discord.guildID;
-				const channel = client.guilds.cache.get(guildID)?.channels.cache
+				try {
+					const tweetURL = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
+					if (new Date(tweet.created_at) < this.started) return false;
+					const guildID = client.config.discord.guildID;
+					const channel = client.guilds.cache.get(guildID)?.channels.cache
 					.find(c => c.type === 'text' && c.name === 'twitter-staging') as TextChannel | undefined;
-				if (!channel) {
-					logger.warn(`No staging channel for tweet ${tweetURL} in ${guildID}`);
-					return;
+					if (!channel) {
+						logger.warn(`No staging channel for tweet ${tweetURL} in ${guildID}`);
+						return;
+					}
+					const embed = await this.transformTweet(tweet);
+					if (embed) embed.addField('URL', `[Visit Tweet](${tweetURL})`);
+					channel.send(embed ? '' : tweetURL, { embed })
+						.then(() => logger.info(`Staged tweet ${tweetURL}`))
+						.catch(err => {
+							logger.warn(`Failed to stage tweet ${tweetURL}:`);
+							logger.warn(err);
+						});
+				} catch (err) {
+					logger.warn(err);
 				}
-				const embed = await this.transformTweet(tweet);
-				if (embed) embed.addField('URL', `[Visit Tweet](${tweetURL})`);
-				channel.send(embed ? '' : tweetURL, { embed })
-					.then(() => logger.info(`Staged tweet ${tweetURL}`))
-					.catch(err => {
-						logger.warn(`Failed to stage tweet ${tweetURL}:`);
-						logger.warn(err);
-					});
 			});
 			this.twitter.on('warn', (error: Error) => {
 				logger.warn('Error on Twitter update stream:');

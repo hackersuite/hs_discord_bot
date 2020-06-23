@@ -43,7 +43,7 @@ export default class SyncCommand extends Command {
 		} catch (error) {
 			await task.update({
 				status: TaskStatus.Failed,
-				description: `An error occurred processing your request. Try again later.\n\n${error.message}`
+				description: `An error occurred processing your request. Try again later.\n\n${error?.message as string}`
 			});
 		}
 	}

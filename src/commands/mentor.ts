@@ -32,9 +32,10 @@ export default class MentorCommand extends Command {
 			aliases: ['mentor'],
 			args: [
 				{
-					id: 'roles',
-					match: 'separate',
-					type: 'lowercase'
+					'id': 'roles',
+					'match': 'separate',
+					'type': 'lowercase',
+					'default': []
 				}
 			],
 			channel: 'guild'
@@ -50,7 +51,7 @@ export default class MentorCommand extends Command {
 		});
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
-		const roles = args.roles || [];
+		const roles = args.roles;
 		const langRoles = [];
 		for (const [roleName, resourceName] of Object.entries(MentorMappings)) {
 			if (roles.includes(roleName)) {
@@ -83,7 +84,7 @@ export default class MentorCommand extends Command {
 			task.update({
 				status: TaskStatus.Failed,
 				description: `An error occurred processing your request. Please try again later.`
-			});
+			}).catch(err => client.loggers.bot.warn(err));
 		}
 	}
 }

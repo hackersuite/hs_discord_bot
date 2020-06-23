@@ -88,18 +88,18 @@ export default class WhoIsCommand extends Command {
 					client.config.loggers.bot.warn(error);
 				}
 			}
-			task.update({});
+			await task.update({});
 		} catch (error) {
 			if (error.res?.statusCode === 404) {
 				task.update({
 					status: TaskStatus.Failed,
 					description: `This account is not linked.`
-				});
+				}).catch(err => client.loggers.bot.warn(err));
 			} else {
 				task.update({
 					status: TaskStatus.Failed,
 					description: `An error occurred processing your request. Try again later.`
-				});
+				}).catch(err => client.loggers.bot.warn(err));
 			}
 		}
 	}

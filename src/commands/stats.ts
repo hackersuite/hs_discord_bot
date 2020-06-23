@@ -22,7 +22,7 @@ export default class StatsCommand extends Command {
 		const client = this.client as HackathonClient;
 		const guild = client.guilds.cache.get(client.config.discord.guildID);
 		if (!guild) {
-			task.update({
+			await task.update({
 				status: TaskStatus.Failed,
 				description: 'Hackathon guild not found'
 			});
@@ -52,13 +52,13 @@ export default class StatsCommand extends Command {
 					value: client.uptime ? humanizeDuration(client.uptime) : 'Undefined'
 				}
 			);
-			task.update({});
+			await task.update({});
 		} catch (error) {
 			client.loggers.bot.warn(error);
 			task.update({
 				status: TaskStatus.Failed,
 				description: `An error occurred processing your request. Please try again later.`
-			});
+			}).catch(err => client.loggers.bot.warn(err));
 		}
 	}
 }

@@ -42,7 +42,7 @@ export class TwitterStream extends Readable {
 				this.destroy(error);
 				return;
 			}
-			this.fetch();
+			this.fetch().catch(err => this.emit('warn', err));
 		}
 	}
 
@@ -50,7 +50,7 @@ export class TwitterStream extends Readable {
 		try {
 			const response = await this.client.searchTweets({
 				...this.config.search,
-				since_id: since || this.config.search.since_id
+				since_id: since ?? this.config.search.since_id
 			});
 			for (const tweet of response.statuses) {
 				if (!this.push(tweet)) {

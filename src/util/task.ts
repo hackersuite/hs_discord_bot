@@ -32,10 +32,10 @@ export class Task extends MessageEmbed {
 		this.issuer = data.issuer;
 		this.id = Date.now();
 		this.setFooter(`Issued by ${this.issuer.tag} | Task ID ${this.id}`);
-		this.update(data);
+		this._updateData(data);
 	}
 
-	public update(data: Partial<TaskData>) {
+	private _updateData(data: Partial<TaskData>) {
 		if (typeof data.status !== 'undefined') {
 			this.status = data.status;
 		}
@@ -47,9 +47,14 @@ export class Task extends MessageEmbed {
 		}
 		this.setColor(TaskStatusColourMap[this.status]);
 		this.setTimestamp(Date.now());
+	}
+
+	public async update(data: Partial<TaskData>) {
+		this._updateData(data);
 		if (this.message) {
-			return this.message.edit(this);
+			await this.message.edit(this);
 		}
+		return Promise.resolve(this);
 	}
 
 	public async sendTo(channel: TextBasedChannel) {

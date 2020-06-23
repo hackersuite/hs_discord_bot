@@ -41,6 +41,7 @@ export default class ReactionAddListener extends Listener {
 		if (reaction.partial) {
 			await reaction.fetch();
 		}
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (reaction.message.partial) {
 			await reaction.message.fetch();
 		}

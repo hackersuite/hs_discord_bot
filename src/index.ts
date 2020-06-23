@@ -40,6 +40,6 @@ loadImage('./assets/twitter_watermark.png')
 			}
 		};
 		const client = new HackathonClient(config);
-		client.start();
+		return client.start();
 	})
 	.catch(logger.error);

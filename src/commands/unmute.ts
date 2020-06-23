@@ -58,7 +58,7 @@ export default class MuteCommand extends Command {
 
 			await modChannel.send(crosspost);
 
-			task.update({
+			await task.update({
 				status: TaskStatus.Completed,
 				description: `Unmuted **${args.target.user.tag}** (${args.target.id})`
 			});
@@ -67,7 +67,7 @@ export default class MuteCommand extends Command {
 			task.update({
 				status: TaskStatus.Failed,
 				description: `An error occurred processing your request. Please try again later.`
-			});
+			}).catch(err => client.loggers.bot.warn(err));
 		}
 	}
 }
