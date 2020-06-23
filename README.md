@@ -17,7 +17,7 @@ A Discord bot to assist with online Hackathons.
 
 ### For development
 
-1. First set up [`hs_discord_bot_api`](https://github.com/unicsmcr/hs_discord_bot)
+1. First set up [`hs_discord_bot_api`](https://github.com/unicsmcr/hs_discord_bot_api)
 2. Install dependencies - `npm i`
 3. Create a valid `.env` file (see `.env.example`)
 4. Update the `assets/` directory
@@ -27,7 +27,7 @@ A Discord bot to assist with online Hackathons.
 
 _Requires Docker_
 
-1. First set up [`hs_discord_bot_api`](https://github.com/unicsmcr/hs_discord_bot)
+1. First set up [`hs_discord_bot_api`](https://github.com/unicsmcr/hs_discord_bot_api)
 2. Create a valid `.env` file (see `.env.example`)
 3. Update the `assets/` directory to be relevant to the Hackathon
 4. Start the bot - `make up` (runs in a Docker container)
