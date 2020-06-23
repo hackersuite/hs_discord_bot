@@ -40,6 +40,32 @@ export default class ReadyListener extends Listener {
 			.setImage('attachment://tweet.jpg');
 	}
 
+	private async handleTweet(tweet: Tweet) {
+		const client = this.client as HackathonClient;
+		const logger = client.config.loggers.twitter;
+		try {
+			const tweetURL = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
+			if (new Date(tweet.created_at) < this.started) return false;
+			const guildID = client.config.discord.guildID;
+			const channel = client.guilds.cache.get(guildID)?.channels.cache
+			.find(c => c.type === 'text' && c.name === 'twitter-staging') as TextChannel | undefined;
+			if (!channel) {
+				logger.warn(`No staging channel for tweet ${tweetURL} in ${guildID}`);
+				return;
+			}
+			const embed = await this.transformTweet(tweet);
+			if (embed) embed.addField('URL', `[Visit Tweet](${tweetURL})`);
+			channel.send(embed ? '' : tweetURL, { embed })
+				.then(() => logger.info(`Staged tweet ${tweetURL}`))
+				.catch(err => {
+					logger.warn(`Failed to stage tweet ${tweetURL}:`);
+					logger.warn(err);
+				});
+		} catch (err) {
+			logger.warn(err);
+		}
+	}
+
 	public exec() {
 		const client = this.client as HackathonClient;
 		const logger = client.config.loggers.twitter;
@@ -50,29 +76,7 @@ export default class ReadyListener extends Listener {
 				interval: 5000,
 				logger
 			});
-			this.twitter.on('data', async (tweet: Tweet) => {
-				try {
-					const tweetURL = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
-					if (new Date(tweet.created_at) < this.started) return false;
-					const guildID = client.config.discord.guildID;
-					const channel = client.guilds.cache.get(guildID)?.channels.cache
-					.find(c => c.type === 'text' && c.name === 'twitter-staging') as TextChannel | undefined;
-					if (!channel) {
-						logger.warn(`No staging channel for tweet ${tweetURL} in ${guildID}`);
-						return;
-					}
-					const embed = await this.transformTweet(tweet);
-					if (embed) embed.addField('URL', `[Visit Tweet](${tweetURL})`);
-					channel.send(embed ? '' : tweetURL, { embed })
-						.then(() => logger.info(`Staged tweet ${tweetURL}`))
-						.catch(err => {
-							logger.warn(`Failed to stage tweet ${tweetURL}:`);
-							logger.warn(err);
-						});
-				} catch (err) {
-					logger.warn(err);
-				}
-			});
+			this.twitter.on('data', (tweet: Tweet) => void this.handleTweet(tweet));
 			this.twitter.on('warn', (error: Error) => {
 				logger.warn('Error on Twitter update stream:');
 				logger.warn(error);

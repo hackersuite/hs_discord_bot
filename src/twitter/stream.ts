@@ -57,10 +57,14 @@ export class TwitterStream extends Readable {
 					return;
 				}
 			}
-			this.timeout = setTimeout(() => this.fetch(response.search_metadata.max_id_str), this.config.interval);
+			this.timeout = setTimeout(() => {
+				void this.fetch(response.search_metadata.max_id_str);
+			}, this.config.interval);
 		} catch (error) {
 			this.emit('warn', error);
-			this.timeout = setTimeout(() => this.fetch(since), this.config.interval * 5);
+			this.timeout = setTimeout(() => {
+				void this.fetch(since);
+			}, this.config.interval * 5);
 		}
 	}
 
