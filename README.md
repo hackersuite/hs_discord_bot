@@ -1,6 +1,6 @@
 # hs_discord_bot
 
-![CI](https://github.com/unicsmcr/hs_discord_bot/workflows/CI/badge.svg)
+![Lint](https://github.com/unicsmcr/hs_discord_bot/workflows/Lint/badge.svg)
 
 A Discord bot to assist with online Hackathons.
 

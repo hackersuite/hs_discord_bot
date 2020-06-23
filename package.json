@@ -57,7 +57,7 @@
     }
   },
   "dependencies": {
-    "@types/node-fetch": "^2.5.5",
+    "@types/node-fetch": "^2.5.7",
     "@unicsmcr/hs_discord_bot_api_client": "^0.0.4",
     "bad-words": "^3.0.3",
     "canvas": "^2.6.1",
@@ -65,8 +65,8 @@
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "form-data": "^3.0.0",
-    "humanize-duration": "^3.22.0",
+    "humanize-duration": "^3.23.1",
     "node-fetch": "^2.6.0",
-    "pino": "^5.17.0"
+    "pino": "^6.3.2"
   }
 }
