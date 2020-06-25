@@ -1,4 +1,4 @@
-# hs_discord_bot
+# Hacker Suite: Discord Bot
 
 ![Lint](https://github.com/unicsmcr/hs_discord_bot/workflows/Lint/badge.svg)
 
