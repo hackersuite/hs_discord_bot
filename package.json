@@ -56,7 +56,7 @@
     "dotenv": "^8.2.0",
     "form-data": "^3.0.0",
     "humanize-duration": "^3.23.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "pino": "^6.3.2"
   }
 }
