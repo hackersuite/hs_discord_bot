@@ -1,7 +1,7 @@
 import { Message, TextChannel, DMChannel, User } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
-import { getUser, getTeam, APITeam, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
+import { getUser, getTeam, APITeam } from '@unicsmcr/hs_discord_bot_api_client';
 import { HackathonClient } from '../HackathonClient';
 
 export default class WhoIsCommand extends Command {
@@ -31,10 +31,10 @@ export default class WhoIsCommand extends Command {
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 		try {
 			const issuer = await getUser(message.author.id);
-			if (issuer.authLevel < AuthLevel.Volunteer) {
+			if (!(await client.userHasResource(issuer.authId, 'hs:hs_discord:bot:whois'))) {
 				return task.update({
 					status: TaskStatus.Failed,
-					description: 'Sorry, you need to be a volunteer or organiser to use this command.'
+					description: 'Sorry, you do not have permission to use this command.'
 				});
 			}
 
