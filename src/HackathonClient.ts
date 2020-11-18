@@ -15,6 +15,9 @@ export interface ApplicationConfig {
 	botApi: {
 		url: string;
 	};
+	hsAuth: {
+		token: string;
+	};
 	twitter: {
 		consumerKey: string;
 		consumerSecret: string;
