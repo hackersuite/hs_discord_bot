@@ -1,7 +1,8 @@
 import { Message, TextChannel, DMChannel, User } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
-import { syncAccount, getUser, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
+import { syncAccount, getUser } from '@unicsmcr/hs_discord_bot_api_client';
+import { HackathonClient } from '../HackathonClient';
 
 export default class SyncCommand extends Command {
 	public constructor() {
@@ -21,6 +22,7 @@ export default class SyncCommand extends Command {
 	}
 
 	public async exec(message: Message, args: { target: User }) {
+		const client = (message.client as HackathonClient);
 		const task = new Task({
 			title: 'User sync',
 			issuer: message.author,
@@ -30,8 +32,7 @@ export default class SyncCommand extends Command {
 		try {
 			let target = args.target;
 			if (target.id !== message.author.id) {
-				const issuer = await getUser(message.author.id);
-				if (issuer.authLevel < AuthLevel.Volunteer) {
+				if (!(await client.discordUserHasResource(message.author.id, 'hs:hs_discord:bot:sync_others'))) {
 					target = message.author;
 				}
 			}
