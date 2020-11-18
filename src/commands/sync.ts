@@ -1,7 +1,7 @@
 import { Message, TextChannel, DMChannel, User } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
-import { syncAccount, getUser } from '@unicsmcr/hs_discord_bot_api_client';
+import { syncAccount } from '@unicsmcr/hs_discord_bot_api_client';
 import { HackathonClient } from '../HackathonClient';
 
 export default class SyncCommand extends Command {

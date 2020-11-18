@@ -1,6 +1,6 @@
 import { Message, TextChannel, DMChannel, GuildMember, MessageEmbed } from 'discord.js';
 import { Command } from 'discord-akairo';
-import { modifyUserRoles, getUser, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
+import { modifyUserRoles } from '@unicsmcr/hs_discord_bot_api_client';
 import { Task, TaskStatus } from '../util/task';
 import { HackathonClient } from '../HackathonClient';
 
@@ -34,11 +34,10 @@ export default class MuteCommand extends Command {
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
 		try {
-			const user = await getUser(message.author.id);
-			if (user.authLevel < AuthLevel.Volunteer) {
+			if (!(await client.discordUserHasResource(message.author.id, 'hs:hs_discord:bot:unmute'))) {
 				return task.update({
 					status: TaskStatus.Failed,
-					description: 'Sorry, you need to be a volunteer or organiser to use this command.'
+					description: 'Sorry, you do not have permission to use this command.'
 				});
 			}
 
