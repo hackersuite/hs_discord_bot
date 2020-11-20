@@ -80,14 +80,14 @@ export class HackathonClient extends AkairoClient {
 		return this.config.loggers;
 	}
 
-	public async userHasResource(userId: string, resource: string): Promise<boolean> {
+	public async userCanAccessResource(userId: string, resource: string): Promise<boolean> {
 		const resources = await authClient.getAuthorizedResources(this.config.hsAuth.token, [resource], userId);
 		return resources.includes(resource);
 	}
 
 	public async discordUserCanAccessResource(discordID: string, resource: string): Promise<boolean> {
 		const authUser = await getUser(discordID);
-		return this.userHasResource(authUser.authId, resource);
+		return this.userCanAccessResource(authUser.authId, resource);
 	}
 
 	public start() {
