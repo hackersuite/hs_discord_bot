@@ -33,6 +33,9 @@ loadImage('./assets/twitter_watermark.png')
 				query: getEnv('TWITTER_QUERY'),
 				watermark
 			},
+			hsAuth: {
+				token: getEnv('HS_AUTH_TOKEN')
+			},
 			loggers: {
 				app: logger,
 				bot: logger.child({ name: 'bot' }),

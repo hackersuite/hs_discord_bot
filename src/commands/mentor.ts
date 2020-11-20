@@ -1,6 +1,6 @@
 import { Message, TextChannel, DMChannel } from 'discord.js';
 import { Command } from 'discord-akairo';
-import { modifyUserRoles, getUser, AuthLevel } from '@unicsmcr/hs_discord_bot_api_client';
+import { modifyUserRoles, getUser } from '@unicsmcr/hs_discord_bot_api_client';
 import { Task, TaskStatus } from '../util/task';
 import { HackathonClient } from '../HackathonClient';
 
@@ -60,10 +60,10 @@ export default class MentorCommand extends Command {
 		}
 		try {
 			const user = await getUser(message.author.id);
-			if (user.authLevel < AuthLevel.Volunteer) {
+			if (!(await client.userCanAccessResource(user.authId, 'hs:hs_discord:bot:mentor'))) {
 				return task.update({
 					status: TaskStatus.Failed,
-					description: 'Sorry, you need to be a volunteer or organiser to use this command.'
+					description: 'Sorry, you do not have permission to use this command.'
 				});
 			}
 			const existingRoles = user.roles

@@ -4,6 +4,8 @@ import { Logger } from 'pino';
 import MuteTracker from './util/MuteTracker';
 import { Image } from 'canvas';
 import { Message } from 'discord.js';
+import { authClient } from './util/authClient';
+import { getUser } from '@unicsmcr/hs_discord_bot_api_client';
 
 export interface ApplicationConfig {
 	discord: {
@@ -14,6 +16,9 @@ export interface ApplicationConfig {
 	};
 	botApi: {
 		url: string;
+	};
+	hsAuth: {
+		token: string;
 	};
 	twitter: {
 		consumerKey: string;
@@ -73,6 +78,16 @@ export class HackathonClient extends AkairoClient {
 
 	public get loggers() {
 		return this.config.loggers;
+	}
+
+	public async userCanAccessResource(userId: string, resource: string): Promise<boolean> {
+		const resources = await authClient.getAuthorizedResources(this.config.hsAuth.token, [resource], userId);
+		return resources.includes(resource);
+	}
+
+	public async discordUserCanAccessResource(discordID: string, resource: string): Promise<boolean> {
+		const authUser = await getUser(discordID);
+		return this.userCanAccessResource(authUser.authId, resource);
 	}
 
 	public start() {
