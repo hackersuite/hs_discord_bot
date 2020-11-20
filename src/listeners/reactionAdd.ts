@@ -61,7 +61,7 @@ export default class ReactionAddListener extends Listener {
 			const action = reaction.emoji.name === '👍' ? 'approve' : 'reject';
 			try {
 				const targetChannel = (channel as TextChannel).guild.channels.cache
-					.find(c => c.type === 'text' && c.name === 'twitter') as TextChannel | undefined;
+					.find(c => c.type === 'text' && c.name === '🐦-twitter') as TextChannel | undefined;
 				if (!targetChannel) {
 					throw new Error('Could not find public twitter channel!');
 				}
