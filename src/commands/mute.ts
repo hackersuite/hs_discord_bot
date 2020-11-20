@@ -34,7 +34,7 @@ export default class MuteCommand extends Command {
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
 		try {
-			if (!(await client.discordUserHasResource(message.author.id, 'hs:hs_discord:bot:mute'))) {
+			if (!(await client.discordUserCanAccessResource(message.author.id, 'hs:hs_discord:bot:mute'))) {
 				return task.update({
 					status: TaskStatus.Failed,
 					description: 'Sorry, you do not have permission to use this command.'
