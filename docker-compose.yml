@@ -15,5 +15,5 @@ services:
 networks:
   # internal network for hs_hub services
   internal:
-    name: internal
+    name: docker_internal_hackathon
     driver: bridge
