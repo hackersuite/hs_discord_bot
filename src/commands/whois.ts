@@ -31,7 +31,7 @@ export default class WhoIsCommand extends Command {
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 		try {
 			const issuer = await getUser(message.author.id);
-			if (!(await client.userHasResource(issuer.authId, 'hs:hs_discord:bot:whois'))) {
+			if (!(await client.userCanAccessResource(issuer.authId, 'hs:hs_discord:bot:whois'))) {
 				return task.update({
 					status: TaskStatus.Failed,
 					description: 'Sorry, you do not have permission to use this command.'
