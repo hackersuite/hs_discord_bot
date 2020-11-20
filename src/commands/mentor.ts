@@ -60,7 +60,7 @@ export default class MentorCommand extends Command {
 		}
 		try {
 			const user = await getUser(message.author.id);
-			if (!(await client.userHasResource(user.authId, 'hs:hs_discord:bot:mentor'))) {
+			if (!(await client.userCanAccessResource(user.authId, 'hs:hs_discord:bot:mentor'))) {
 				return task.update({
 					status: TaskStatus.Failed,
 					description: 'Sorry, you do not have permission to use this command.'
