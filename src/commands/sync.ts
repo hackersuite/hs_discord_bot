@@ -32,7 +32,7 @@ export default class SyncCommand extends Command {
 		try {
 			let target = args.target;
 			if (target.id !== message.author.id) {
-				if (!(await client.discordUserHasResource(message.author.id, 'hs:hs_discord:bot:sync_others'))) {
+				if (!(await client.discordUserCanAccessResource(message.author.id, 'hs:hs_discord:bot:sync_others'))) {
 					target = message.author;
 				}
 			}
