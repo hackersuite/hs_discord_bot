@@ -25,7 +25,7 @@ export default class MuteCommand extends Command {
 	public async exec(message: Message, args: { target: GuildMember }) {
 		const client = message.client as HackathonClient;
 		const modChannel = client.guilds.cache.get(client.config.discord.guildID)?.channels.cache
-			.find(c => c.name === 'moderation') as TextChannel;
+			.find(c => c.name === '🛡-moderation') as TextChannel;
 		const task = new Task({
 			title: 'Mute Member',
 			issuer: message.author,

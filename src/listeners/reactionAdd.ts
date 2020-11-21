@@ -52,7 +52,7 @@ export default class ReactionAddListener extends Listener {
 
 		const shouldExec = channel.type === 'text' &&
 			channel.guild.id === client.config.discord.guildID &&
-			channel.name === 'twitter-staging' &&
+			channel.name === '🐦-twitter-staging' &&
 			['👍', '👎'].includes(reaction.emoji.name) &&
 			reaction.count === 1 &&
 			reaction.message.embeds.length > 0;

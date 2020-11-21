@@ -18,7 +18,7 @@ export default class MessageListener extends Listener {
 	private execProfane(message: Message) {
 		const client = this.client as HackathonClient;
 		const guild = message.guild as Guild;
-		const modChannel = guild.channels.cache.find(c => c.name === 'moderation') as TextChannel;
+		const modChannel = guild.channels.cache.find(c => c.name === '🛡-moderation') as TextChannel;
 
 		const crosspost = new MessageEmbed()
 			.setAuthor(message.author.tag, message.author.displayAvatarURL())

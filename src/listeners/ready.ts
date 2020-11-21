@@ -48,7 +48,7 @@ export default class ReadyListener extends Listener {
 			if (new Date(tweet.created_at) < this.started) return false;
 			const guildID = client.config.discord.guildID;
 			const channel = client.guilds.cache.get(guildID)?.channels.cache
-			.find(c => c.type === 'text' && c.name === 'twitter-staging') as TextChannel | undefined;
+			.find(c => c.type === 'text' && c.name === '🐦-twitter-staging') as TextChannel | undefined;
 			if (!channel) {
 				logger.warn(`No staging channel for tweet ${tweetURL} in ${guildID}`);
 				return;
