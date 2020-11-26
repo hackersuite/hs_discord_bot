@@ -2,6 +2,13 @@ import { Message, TextChannel, DMChannel, VoiceChannel } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
 import { HackathonClient } from '../HackathonClient';
+import { APIUser, getUsers } from '@unicsmcr/hs_discord_bot_api_client';
+
+const COMMA_REGEX = /,/g;
+
+function escape(text: string): string {
+	return text.replace(COMMA_REGEX, '\\,');
+}
 
 export default class ListenersCommand extends Command {
 	public constructor() {
@@ -49,19 +56,41 @@ export default class ListenersCommand extends Command {
 				}
 			}
 
-			const users = args.target.members.map(member => member.id);
+			const _users = await getUsers();
+			const users: Record<string, APIUser> = {};
+			for (const user of _users) {
+				users[user.discordId] = user;
+			}
+
+			const csv = [
+				'Discord ID,Auth User ID,Auth Name,Email,Discord Tag'
+			];
+
+			for (const member of args.target.members.values()) {
+				if (member.user.bot) continue;
+				const record = [member.id, 'none', 'none', 'none', member.user.tag];
+				const authUser = users[member.user.id] as APIUser|undefined;
+				if (authUser) {
+					record[1] = authUser.authId;
+					record[2] = authUser.name;
+					record[3] = authUser.email;
+				}
+				csv.push(record.map(v => escape(v)).join(','));
+			}
 
 			await task.update({
 				status: TaskStatus.Completed,
 				description: `Got the list of users in ${args.target.name}!`
 			});
 
-			await task.attachFiles([
-				{
-					attachment: Buffer.from(JSON.stringify(users)),
-					name: 'listeners.csv'
-				}
-			]);
+			await message.channel.send('', {
+				files: [
+					{
+						attachment: Buffer.from(csv.join(',')),
+						name: 'listeners.csv'
+					}
+				]
+			});
 		} catch (err) {
 			client.loggers.bot.warn(err);
 			task.update({
