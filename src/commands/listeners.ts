@@ -86,7 +86,7 @@ export default class ListenersCommand extends Command {
 			await message.channel.send('', {
 				files: [
 					{
-						attachment: Buffer.from(csv.join(',')),
+						attachment: Buffer.from(csv.join('\n')),
 						name: 'listeners.csv'
 					}
 				]
