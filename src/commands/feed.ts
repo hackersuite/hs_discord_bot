@@ -50,7 +50,8 @@ export default class FeedCommand extends Command {
 				method: 'PUT',
 				body: JSON.stringify({ userId: authUser.authId }),
 				headers: {
-					Authorization: client.config.hsAuth.token
+					'Authorization': client.config.hsAuth.token,
+					'Content-Type': 'application/json'
 				}
 			});
 
