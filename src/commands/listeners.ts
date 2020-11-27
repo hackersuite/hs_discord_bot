@@ -46,16 +46,6 @@ export default class ListenersCommand extends Command {
 				});
 			}
 
-			if (message.guild) {
-				const channel = message.channel as TextChannel;
-				if (channel.permissionsFor(message.guild.id)?.has('VIEW_CHANNEL')) {
-					return task.update({
-						status: TaskStatus.Failed,
-						description: 'Sorry, you need to run this in a private channel.'
-					});
-				}
-			}
-
 			const _users = await getUsers();
 			const users: Record<string, APIUser> = {};
 			for (const user of _users) {
@@ -83,7 +73,7 @@ export default class ListenersCommand extends Command {
 				description: `Got the list of users in ${args.target.name}!`
 			});
 
-			await message.channel.send('', {
+			await message.author.send('', {
 				files: [
 					{
 						attachment: Buffer.from(csv.join('\n')),
