@@ -68,11 +68,6 @@ export default class ListenersCommand extends Command {
 				csv.push(record.map(v => escape(v)).join(','));
 			}
 
-			await task.update({
-				status: TaskStatus.Completed,
-				description: `Got the list of users in ${args.target.name}!`
-			});
-
 			await message.author.send('', {
 				files: [
 					{
@@ -80,6 +75,11 @@ export default class ListenersCommand extends Command {
 						name: 'listeners.csv'
 					}
 				]
+			});
+
+			await task.update({
+				status: TaskStatus.Completed,
+				description: `Sent list of users in ${args.target.name}!`
 			});
 		} catch (err) {
 			client.loggers.bot.warn(err);
