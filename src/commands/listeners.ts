@@ -23,8 +23,7 @@ export default class ListenersCommand extends Command {
 						retry: 'That\'s not a valid channel! Try again.'
 					}
 				}
-			],
-			channel: 'guild'
+			]
 		});
 	}
 

@@ -23,8 +23,7 @@ export default class FeedCommand extends Command {
 						retry: 'That\'s not a valid member! Try again.'
 					}
 				}
-			],
-			channel: 'guild'
+			]
 		});
 	}
 
