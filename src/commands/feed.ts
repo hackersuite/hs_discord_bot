@@ -1,4 +1,4 @@
-import { Message, TextChannel, DMChannel, GuildMember } from 'discord.js';
+import { Message, TextChannel, DMChannel, User } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
 import { HackathonClient } from '../HackathonClient';
@@ -17,22 +17,22 @@ export default class FeedCommand extends Command {
 			args: [
 				{
 					id: 'target',
-					type: 'member',
+					type: 'user',
 					prompt: {
 						start: 'Who would you like to feed?',
-						retry: 'That\'s not a valid member! Try again.'
+						retry: 'That\'s not a valid user! Try again.'
 					}
 				}
 			]
 		});
 	}
 
-	public async exec(message: Message, args: { target: GuildMember }) {
+	public async exec(message: Message, args: { target: User }) {
 		const client = message.client as HackathonClient;
 		const task = new Task({
 			title: 'Feed Member 🍕',
 			issuer: message.author,
-			description: `Feeding **${args.target.user.tag}** (${args.target.id})`
+			description: `Feeding **${args.target.tag}** (${args.target.id})`
 		});
 		await task.sendTo(message.channel as TextChannel | DMChannel);
 
@@ -57,7 +57,7 @@ export default class FeedCommand extends Command {
 
 			await task.update({
 				status: TaskStatus.Completed,
-				description: `Fed **${args.target.user.tag}** (${args.target.id})`
+				description: `Fed **${args.target.tag}** (${args.target.id})`
 			});
 		} catch (err) {
 			client.loggers.bot.warn(err);
