@@ -2,6 +2,13 @@ import { Message, TextChannel, DMChannel, GuildMember } from 'discord.js';
 import { Command } from 'discord-akairo';
 import { Task, TaskStatus } from '../util/task';
 import { HackathonClient } from '../HackathonClient';
+import fetch from 'node-fetch';
+import { getUser } from '@unicsmcr/hs_discord_bot_api_client';
+
+const ACHIEVEMENT_ID: string = process.env.FEED_ACHIEVEMENT_ID!;
+if (!ACHIEVEMENT_ID) {
+	throw new Error('FEED_ACHIEVEMENT_ID must be set');
+}
 
 export default class FeedCommand extends Command {
 	public constructor() {
@@ -24,7 +31,7 @@ export default class FeedCommand extends Command {
 	public async exec(message: Message, args: { target: GuildMember }) {
 		const client = message.client as HackathonClient;
 		const task = new Task({
-			title: 'Feed Member',
+			title: 'Feed Member 🍕',
 			issuer: message.author,
 			description: `Feeding **${args.target.user.tag}** (${args.target.id})`
 		});
@@ -38,7 +45,15 @@ export default class FeedCommand extends Command {
 				});
 			}
 
-			// hackersuite api call here
+			const authUser = await getUser(args.target.id);
+
+			await fetch(`https://hub.greatunihack.com/achievements/${ACHIEVEMENT_ID}/api/complete`, {
+				method: 'PUT',
+				body: JSON.stringify({ userId: authUser.authId }),
+				headers: {
+					Authorization: client.config.hsAuth.token
+				}
+			});
 
 			await task.update({
 				status: TaskStatus.Completed,
