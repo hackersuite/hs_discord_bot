@@ -4,10 +4,10 @@ import { Task, TaskStatus } from '../util/task';
 import { getUser, getTeam, APITeam, getUsers } from '@unicsmcr/hs_discord_bot_api_client';
 import { HackathonClient } from '../HackathonClient';
 
-export default class WhoIsCommand extends Command {
+export default class WhoIsAuthCommand extends Command {
 	public constructor() {
-		super('whois', {
-			aliases: ['whois'],
+		super('whoisauth', {
+			aliases: ['whoisauth'],
 			args: [
 				{
 					id: 'target',
