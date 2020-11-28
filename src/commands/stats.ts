@@ -32,10 +32,18 @@ export default class StatsCommand extends Command {
 			task.status = TaskStatus.Completed;
 			task.description = '';
 			const teams = await getTeams();
+
+			await guild.members.fetch();
+			const attendees = guild.members.cache.filter(member => member.roles.cache.some(role => role.name === 'Attendee'));
+
 			task.addFields(
 				{
 					name: 'Teams',
 					value: teams.length
+				},
+				{
+					name: 'Attendees',
+					value: attendees.size
 				},
 				{
 					name: 'Uptime',
