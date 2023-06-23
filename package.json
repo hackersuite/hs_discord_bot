@@ -51,7 +51,7 @@
     "@unicsmcr/hs_auth_client": "^3.1.0",
     "@unicsmcr/hs_discord_bot_api_client": "^0.0.5",
     "bad-words": "^3.0.3",
-    "canvas": "^2.6.1",
+    "canvas": "^2.11.2",
     "discord-akairo": "^8.0.0",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
